@@ -248,6 +248,92 @@
   .category-block li { padding: 3px 0; font-size: 12px; color: #3a3a3c; }
   .category-block li::before { content: '✓'; color: #34c759; margin-right: 6px; }
 
+  /* Edit mode controls */
+  .add-btn, .del-btn, .del-td, .del-th { display: none; }
+
+  body.edit-mode .add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1.5px dashed #34c759;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    transition: all 0.15s;
+  }
+  body.edit-mode .add-btn:hover { background: #c8e6c9; border-color: #2e7d32; transform: translateY(-1px); }
+  body.edit-mode .add-btn.small { padding: 4px 10px; font-size: 11px; margin-top: 4px; }
+
+  body.edit-mode .del-td, body.edit-mode .del-th { display: table-cell; width: 40px; padding: 4px; text-align: center; background: #fff8e1; }
+  body.edit-mode .del-th { background: #fff3e0; }
+
+  body.edit-mode .del-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff3b30;
+    color: #fff;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    font-weight: 700;
+    z-index: 10;
+  }
+  body.edit-mode .del-btn:hover { background: #d32f2f; transform: scale(1.15); }
+
+  body.edit-mode .process-col li,
+  body.edit-mode .category-block li,
+  body.edit-mode .timeline-task li,
+  body.edit-mode .card ul li,
+  body.edit-mode .partner-card,
+  body.edit-mode .tool-item,
+  body.edit-mode .glossary-item,
+  body.edit-mode .timeline-item { position: relative; }
+
+  body.edit-mode .del-btn.inline {
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  body.edit-mode li:hover > .del-btn.inline,
+  body.edit-mode .partner-card:hover > .del-btn.inline,
+  body.edit-mode .tool-item:hover > .del-btn.inline,
+  body.edit-mode .glossary-item:hover > .del-btn.inline,
+  body.edit-mode .timeline-item:hover > .del-btn.inline { opacity: 1; }
+
+  body.edit-mode .process-col li { padding-right: 28px; }
+  body.edit-mode .process-card,
+  body.edit-mode .card { outline: 1px dashed #ffcc80; outline-offset: 4px; }
+
+  .edit-banner { display: none; }
+  body.edit-mode .edit-banner {
+    display: block;
+    background: #fff3e0;
+    color: #e65100;
+    padding: 10px 16px;
+    border-left: 3px solid #ff9500;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .edit-banner kbd {
+    background: #fff; padding: 1px 6px; border-radius: 3px;
+    border: 1px solid #ddd; font-size: 11px; font-family: monospace;
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .flow-bird { grid-template-columns: repeat(2, 1fr); }
@@ -295,6 +381,10 @@
 </nav>
 
 <main>
+
+<div class="edit-banner">
+  ✏️ <strong>편집 모드</strong> — 텍스트 클릭해서 수정 · <kbd>+ 항목/행/카드 추가</kbd> 버튼으로 추가 · 항목에 마우스 올리면 <kbd>×</kbd> 로 삭제 · 링크 클릭 시 URL 수정 프롬프트 · 완료하면 상단 <kbd>저장</kbd>
+</div>
 
 <!-- ===== HOME: 전체 flow ===== -->
 <section class="panel active" id="tab-home">
@@ -372,8 +462,9 @@
 
   <p class="ref-link">
     📎 관련 기존 문서:
-    <a href="file:///Users/bong/Downloads/벨리에_생산관리_매뉴얼.html" target="_blank">생산관리 매뉴얼</a> ·
-    <a href="file:///Users/bong/Downloads/벨리에_생산관리_프로세스_플로우차트.html" target="_blank">생산 플로우차트</a> ·
+    <a href="production-manual.html" target="_blank">생산관리 매뉴얼</a> ·
+    <a href="production-flowchart.html" target="_blank">생산 플로우차트</a> ·
+    <a href="production-detail.html" target="_blank">생산 디테일 프로세스</a> ·
     <a href="https://belier-calendar.vercel.app/" target="_blank">CS 매뉴얼</a>
   </p>
 </section>
@@ -1505,7 +1596,7 @@ ROAS 상위 3개 캠페인:
       <li>• 29CM 기획전 신청 가이드: <a href="https://partners.29cm.co.kr/" target="_blank">29CM 파트너센터</a></li>
       <li>• 무신사 기획전 신청: <a href="https://partners.musinsa.com/" target="_blank">무신사 파트너센터</a></li>
       <li>• CS 매뉴얼 (참조): <a href="https://belier-calendar.vercel.app/" target="_blank">belier-calendar.vercel.app</a></li>
-      <li>• 생산 매뉴얼 (참조): <a href="file:///Users/bong/Downloads/벨리에_생산관리_매뉴얼.html" target="_blank">벨리에_생산관리_매뉴얼.html</a></li>
+      <li>• 생산 매뉴얼 (참조): <a href="production-manual.html" target="_blank">생산관리 매뉴얼</a></li>
     </ul>
   </div>
 </section>
@@ -1513,32 +1604,48 @@ ROAS 상위 3개 캠페인:
 </main>
 
 <script>
-  // Tab switching
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.tab;
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('tab-' + target).classList.add('active');
-      window.scrollTo(0, 0);
+  // ============ Tab Switching ============
+  function attachTabEvents() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.onclick = () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + target).classList.add('active');
+        window.scrollTo(0, 0);
+      };
     });
-  });
+  }
 
-  // Edit mode toggle
+  // ============ Edit Mode ============
   let editMode = false;
+  const EDITABLE_SELECTORS = [
+    '.process-col li', '.timeline-task li', '.timeline-task h4',
+    '.category-block li', '.glossary-item div', '.glossary-term',
+    '.partner-card h4', '.partner-card .type', '.partner-card .notes',
+    '.tool-item h4', '.tool-item .url', '.tool-item .desc',
+    '.card ul li', '.card h3', '.card h4', '.card p',
+    'table tbody td', 'h2', 'h3', '.subtitle',
+    '.process-card-title', '.notice',
+    '.timeline-time', '.timeline-time small',
+    '.summary-label', '.summary-num',
+    'a', '[id^="tpl-"]'
+  ];
+
   function toggleEdit() {
     editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
     const btn = document.getElementById('btn-edit');
-    document.querySelectorAll('[contenteditable]').forEach(el => {
-      el.setAttribute('contenteditable', editMode ? 'true' : 'false');
-    });
-    // Make all text containers editable in edit mode
+
     if (editMode) {
-      document.querySelectorAll('.process-col li, .timeline-task li, .timeline-task h4, .category-block li, .glossary-item div, .partner-card h4, .partner-card .notes, .tool-item .desc').forEach(el => {
-        el.setAttribute('contenteditable', 'true');
+      EDITABLE_SELECTORS.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+          if (el.classList && (el.classList.contains('del-btn') || el.classList.contains('add-btn'))) return;
+          el.setAttribute('contenteditable', 'true');
+        });
       });
-      btn.textContent = '편집 중 · 클릭해서 종료';
+      btn.textContent = '편집 중 · 완료';
       btn.classList.add('active');
     } else {
       document.querySelectorAll('[contenteditable="true"]').forEach(el => {
@@ -1549,14 +1656,274 @@ ROAS 상위 3개 캠페인:
     }
   }
 
-  // Save to localStorage
-  function saveAll() {
-    const snapshot = document.body.innerHTML;
+  // ============ Edit Link (URL) in edit mode ============
+  document.addEventListener('click', (e) => {
+    if (!document.body.classList.contains('edit-mode')) return;
+    const link = e.target.closest('a');
+    if (link && link.href) {
+      e.preventDefault();
+      e.stopPropagation();
+      const current = link.getAttribute('href') || '';
+      const next = prompt('링크 주소를 수정하세요:\n(빈 칸으로 두고 확인 시 링크 제거, 취소하면 유지)', current);
+      if (next === null) return;
+      if (next.trim() === '') {
+        // Replace anchor with span, keep text
+        const span = document.createElement('span');
+        span.textContent = link.textContent;
+        link.replaceWith(span);
+      } else {
+        link.setAttribute('href', next.trim());
+      }
+    }
+  }, true);
+
+  // ============ Inject Add/Delete Controls ============
+  function injectEditControls() {
+    // Add "+ 항목" after editable <ul>
+    document.querySelectorAll('.process-col ul, .category-block ul, .timeline-task ul, .card ul').forEach(ul => {
+      if (ul.nextElementSibling && ul.nextElementSibling.classList && ul.nextElementSibling.classList.contains('add-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'add-btn small';
+      btn.textContent = '+ 항목';
+      btn.type = 'button';
+      btn.onclick = (e) => { e.stopPropagation(); addLi(ul); };
+      ul.insertAdjacentElement('afterend', btn);
+    });
+
+    // Del-btn on each <li>
+    document.querySelectorAll('.process-col ul li, .category-block ul li, .timeline-task ul li, .card ul li').forEach(li => {
+      addDelButton(li, 'inline', '이 항목을 삭제하시겠습니까?');
+    });
+
+    // Tables: add del column + "+ 행" button
+    document.querySelectorAll('table').forEach(table => {
+      const thead = table.querySelector('thead tr');
+      const tbody = table.querySelector('tbody');
+      if (thead && !thead.querySelector('.del-th')) {
+        const th = document.createElement('th');
+        th.className = 'del-th';
+        th.innerHTML = '🗑';
+        thead.appendChild(th);
+      }
+      if (tbody) {
+        tbody.querySelectorAll('tr').forEach(tr => {
+          if (tr.querySelector('.del-td')) return;
+          const td = document.createElement('td');
+          td.className = 'del-td';
+          const btn = document.createElement('button');
+          btn.className = 'del-btn';
+          btn.innerHTML = '×';
+          btn.type = 'button';
+          btn.title = '행 삭제';
+          btn.onclick = (e) => { e.stopPropagation(); if (confirm('이 행을 삭제하시겠습니까?')) tr.remove(); };
+          td.appendChild(btn);
+          tr.appendChild(td);
+        });
+      }
+      if (!(table.nextElementSibling && table.nextElementSibling.classList && table.nextElementSibling.classList.contains('add-btn'))) {
+        const btn = document.createElement('button');
+        btn.className = 'add-btn';
+        btn.textContent = '+ 행 추가';
+        btn.type = 'button';
+        btn.onclick = (e) => { e.stopPropagation(); addTableRow(table); };
+        table.insertAdjacentElement('afterend', btn);
+      }
+    });
+
+    // Partner-grid: "+ 카드" + del on each card
+    document.querySelectorAll('.partner-grid').forEach(grid => {
+      if (grid.nextElementSibling && grid.nextElementSibling.classList && grid.nextElementSibling.classList.contains('add-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'add-btn';
+      btn.textContent = '+ 파트너 카드 추가';
+      btn.type = 'button';
+      btn.onclick = (e) => { e.stopPropagation(); addPartnerCard(grid); };
+      grid.insertAdjacentElement('afterend', btn);
+    });
+    document.querySelectorAll('.partner-card').forEach(card => {
+      addDelButton(card, 'inline', '이 카드를 삭제하시겠습니까?');
+    });
+
+    // Tool-grid: "+ 카드" + del
+    document.querySelectorAll('.tool-grid').forEach(grid => {
+      if (grid.nextElementSibling && grid.nextElementSibling.classList && grid.nextElementSibling.classList.contains('add-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'add-btn';
+      btn.textContent = '+ 도구 카드 추가';
+      btn.type = 'button';
+      btn.onclick = (e) => { e.stopPropagation(); addToolCard(grid); };
+      grid.insertAdjacentElement('afterend', btn);
+    });
+    document.querySelectorAll('.tool-item').forEach(card => {
+      addDelButton(card, 'inline', '이 카드를 삭제하시겠습니까?');
+    });
+
+    // Glossary: "+ 용어" + del
+    document.querySelectorAll('#tab-glossary').forEach(section => {
+      if (section.querySelector(':scope > .add-btn-glossary')) return;
+      const btn = document.createElement('button');
+      btn.className = 'add-btn add-btn-glossary';
+      btn.textContent = '+ 용어 추가';
+      btn.type = 'button';
+      btn.onclick = (e) => { e.stopPropagation(); addGlossaryItem(section); };
+      section.appendChild(btn);
+    });
+    document.querySelectorAll('.glossary-item').forEach(item => {
+      addDelButton(item, 'inline', '이 용어를 삭제하시겠습니까?');
+    });
+
+    // Timeline: "+ 시간대" + del on each item
+    document.querySelectorAll('.timeline').forEach(timeline => {
+      if (timeline.nextElementSibling && timeline.nextElementSibling.classList && timeline.nextElementSibling.classList.contains('add-btn-timeline')) return;
+      const btn = document.createElement('button');
+      btn.className = 'add-btn add-btn-timeline';
+      btn.textContent = '+ 시간대 추가';
+      btn.type = 'button';
+      btn.onclick = (e) => { e.stopPropagation(); addTimelineItem(timeline); };
+      timeline.insertAdjacentElement('afterend', btn);
+    });
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      addDelButton(item, 'inline', '이 시간대를 삭제하시겠습니까?', true);
+    });
+  }
+
+  function addDelButton(el, variant, confirmMsg, topOffset) {
+    if (el.querySelector(':scope > .del-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'del-btn ' + (variant || '');
+    btn.innerHTML = '×';
+    btn.type = 'button';
+    btn.title = '삭제';
+    if (topOffset) btn.style.top = '12px';
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (confirm(confirmMsg || '삭제하시겠습니까?')) el.remove();
+    };
+    el.appendChild(btn);
+  }
+
+  // ============ Add functions ============
+  function addLi(ul) {
+    const li = document.createElement('li');
+    li.textContent = '새 항목 (클릭해서 수정)';
+    li.setAttribute('contenteditable', 'true');
+    ul.appendChild(li);
+    addDelButton(li, 'inline', '이 항목을 삭제하시겠습니까?');
+    li.focus();
+    selectAllText(li);
+  }
+
+  function addTableRow(table) {
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    const firstRow = tbody.querySelector('tr');
+    const colCount = firstRow ? firstRow.querySelectorAll('td:not(.del-td)').length : (table.querySelectorAll('thead th:not(.del-th)').length || 3);
+    const newRow = document.createElement('tr');
+    for (let i = 0; i < colCount; i++) {
+      const td = document.createElement('td');
+      td.textContent = '-';
+      td.setAttribute('contenteditable', 'true');
+      newRow.appendChild(td);
+    }
+    const delTd = document.createElement('td');
+    delTd.className = 'del-td';
+    const delBtn = document.createElement('button');
+    delBtn.className = 'del-btn';
+    delBtn.innerHTML = '×';
+    delBtn.type = 'button';
+    delBtn.onclick = (e) => { e.stopPropagation(); if (confirm('이 행을 삭제하시겠습니까?')) newRow.remove(); };
+    delTd.appendChild(delBtn);
+    newRow.appendChild(delTd);
+    tbody.appendChild(newRow);
+    const firstTd = newRow.querySelector('td');
+    if (firstTd) { firstTd.focus(); selectAllText(firstTd); }
+  }
+
+  function addPartnerCard(grid) {
+    const card = document.createElement('div');
+    card.className = 'partner-card';
+    card.innerHTML = '<div class="type" contenteditable="true">유형</div>' +
+      '<h4 contenteditable="true">새 파트너</h4>' +
+      '<div class="notes" contenteditable="true">상세 설명을 작성하세요.</div>';
+    grid.appendChild(card);
+    addDelButton(card, 'inline', '이 카드를 삭제하시겠습니까?');
+    const h4 = card.querySelector('h4');
+    h4.focus(); selectAllText(h4);
+  }
+
+  function addToolCard(grid) {
+    const card = document.createElement('div');
+    card.className = 'tool-item';
+    card.innerHTML = '<h4 contenteditable="true">새 도구</h4>' +
+      '<div class="url" contenteditable="true">https://...</div>' +
+      '<div class="desc" contenteditable="true">용도 / 주의사항</div>';
+    grid.appendChild(card);
+    addDelButton(card, 'inline', '이 카드를 삭제하시겠습니까?');
+    const h4 = card.querySelector('h4');
+    h4.focus(); selectAllText(h4);
+  }
+
+  function addGlossaryItem(section) {
+    const item = document.createElement('div');
+    item.className = 'glossary-item';
+    item.innerHTML = '<div class="glossary-term" contenteditable="true">새 용어</div>' +
+      '<div contenteditable="true">용어 설명을 작성하세요.</div>';
+    const addBtn = section.querySelector('.add-btn-glossary');
+    if (addBtn) section.insertBefore(item, addBtn);
+    else section.appendChild(item);
+    addDelButton(item, 'inline', '이 용어를 삭제하시겠습니까?');
+    const term = item.querySelector('.glossary-term');
+    term.focus(); selectAllText(term);
+  }
+
+  function addTimelineItem(timeline) {
+    const item = document.createElement('div');
+    item.className = 'timeline-item';
+    item.innerHTML = '<div class="timeline-time" contenteditable="true">00:00<small contenteditable="true">~00:00</small></div>' +
+      '<div class="timeline-task">' +
+      '<h4 contenteditable="true">새 업무</h4>' +
+      '<ul><li contenteditable="true">세부 활동</li></ul>' +
+      '</div>';
+    timeline.appendChild(item);
+    addDelButton(item, 'inline', '이 시간대를 삭제하시겠습니까?', true);
+    // Inject controls for the nested ul
+    injectEditControls();
+    const time = item.querySelector('.timeline-time');
+    time.focus(); selectAllText(time);
+  }
+
+  function selectAllText(el) {
     try {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const delBtn = el.querySelector(':scope > .del-btn');
+      if (delBtn) {
+        const textNodes = [...el.childNodes].filter(n => n.nodeType === 3 || (n.nodeType === 1 && !n.classList.contains('del-btn')));
+        if (textNodes.length) {
+          range.setStartBefore(textNodes[0]);
+          range.setEndAfter(textNodes[textNodes.length - 1]);
+        }
+      }
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } catch (e) {}
+  }
+
+  // ============ Save / Load / Export / Reset ============
+  function saveAll() {
+    try {
+      const snapshot = document.body.innerHTML;
       localStorage.setItem('belier-manual-v1', snapshot);
       localStorage.setItem('belier-manual-updated', new Date().toISOString());
       updateTimestamp();
-      alert('저장 완료');
+      const saveBtn = [...document.querySelectorAll('.btn-secondary')].find(b => b.textContent.trim() === '저장');
+      if (saveBtn) {
+        const orig = saveBtn.textContent;
+        saveBtn.textContent = '✓ 저장됨';
+        setTimeout(() => saveBtn.textContent = orig, 1500);
+      }
     } catch (e) {
       alert('저장 실패: ' + e.message + '\n(콘텐츠가 너무 크면 HTML 내보내기 사용)');
     }
@@ -1564,37 +1931,23 @@ ROAS 상위 3개 캠페인:
 
   function updateTimestamp() {
     const ts = localStorage.getItem('belier-manual-updated');
-    if (ts) {
+    const el = document.getElementById('updated');
+    if (ts && el) {
       const d = new Date(ts);
-      document.getElementById('updated').textContent = '최종 수정: ' + d.toLocaleString('ko-KR');
+      el.textContent = '최종 수정: ' + d.toLocaleString('ko-KR');
     }
   }
 
-  // Load from localStorage
   function loadAll() {
     const saved = localStorage.getItem('belier-manual-v1');
     if (saved) {
       document.body.innerHTML = saved;
-      // Re-bind events after innerHTML replacement
-      attachEvents();
-      updateTimestamp();
     }
+    attachTabEvents();
+    injectEditControls();
+    updateTimestamp();
   }
 
-  function attachEvents() {
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const target = tab.dataset.tab;
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('tab-' + target).classList.add('active');
-        window.scrollTo(0, 0);
-      });
-    });
-  }
-
-  // Reset
   function resetAll() {
     if (confirm('저장된 수정사항을 모두 초기화하시겠습니까? (원본 상태로 되돌림)')) {
       localStorage.removeItem('belier-manual-v1');
@@ -1603,9 +1956,11 @@ ROAS 상위 3개 캠페인:
     }
   }
 
-  // Export HTML
   function exportHTML() {
+    const wasEditing = document.body.classList.contains('edit-mode');
+    if (wasEditing) document.body.classList.remove('edit-mode');
     const html = '<!DOCTYPE html>\n<html lang="ko">\n' + document.documentElement.innerHTML + '\n</html>';
+    if (wasEditing) document.body.classList.add('edit-mode');
     const blob = new Blob([html], {type: 'text/html'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -1613,13 +1968,11 @@ ROAS 상위 3개 캠페인:
     a.click();
   }
 
-  // Copy template
   function copyText(id) {
     const el = document.getElementById(id);
-    const text = el.innerText;
-    navigator.clipboard.writeText(text).then(() => {
-      const btns = document.querySelectorAll('button');
-      btns.forEach(b => {
+    if (!el) return;
+    navigator.clipboard.writeText(el.innerText).then(() => {
+      document.querySelectorAll('button').forEach(b => {
         if (b.getAttribute('onclick') === `copyText('${id}')`) {
           const orig = b.textContent;
           b.textContent = '✓ 복사됨';
@@ -1629,21 +1982,21 @@ ROAS 상위 3개 캠페인:
     });
   }
 
-  // Open external manuals
   function openManual(dept) {
     const paths = {
-      production: 'file:///Users/bong/Downloads/벨리에_생산관리_매뉴얼.html'
+      production: 'production-manual.html',
+      flowchart: 'production-flowchart.html',
+      detail: 'production-detail.html'
     };
     if (paths[dept]) window.open(paths[dept], '_blank');
-    else alert('준비 중입니다');
+    else alert('준비 중입니다. 편집 모드에서 해당 박스를 클릭해 링크를 설정하세요.');
   }
   function openCSManual() {
     window.open('https://belier-calendar.vercel.app/', '_blank');
   }
 
-  // Boot
+  // ============ Boot ============
   loadAll();
-  updateTimestamp();
 </script>
 
 </body>
