@@ -41,6 +41,16 @@
   .btn-secondary:hover { background: #48484a; }
   .btn-edit { background: #ff9500; color: #fff; }
   .btn-edit.active { background: #34c759; }
+  .btn-undo {
+    background: #48484a; color: #fff;
+    transition: opacity 0.15s;
+  }
+  .btn-undo:hover { background: #5a5a5c; }
+  .btn-undo:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    background: #3a3a3c;
+  }
 
   /* Tabs */
   .tabs {
@@ -361,6 +371,8 @@
   <h1>BELIER 통합 업무 매뉴얼 <span class="badge">마케팅</span></h1>
   <div class="header-right">
     <span class="updated" id="updated">최종 수정: -</span>
+    <button class="btn btn-undo" id="btn-undo" onclick="undo()" title="되돌리기 (⌘Z)" disabled>↶ 되돌리기</button>
+    <button class="btn btn-undo" id="btn-redo" onclick="redo()" title="다시 실행 (⌘⇧Z)" disabled>↷ 다시</button>
     <button class="btn btn-edit" id="btn-edit" onclick="toggleEdit()">편집 모드</button>
     <button class="btn btn-secondary" onclick="saveAll()">저장</button>
     <button class="btn btn-secondary" onclick="exportHTML()">HTML 내보내기</button>
@@ -1637,6 +1649,95 @@ ROAS 상위 3개 캠페인:
     });
   }
 
+  // ============ Undo/Redo History ============
+  const HISTORY_MAX = 50;
+  let history = [];
+  let historyIndex = -1;
+  let suppressHistory = false;
+
+  function pushHistory() {
+    if (suppressHistory) return;
+    const snap = document.body.innerHTML;
+    // Avoid duplicates
+    if (history[historyIndex] === snap) return;
+    // Discard any redo history
+    history.splice(historyIndex + 1);
+    history.push(snap);
+    if (history.length > HISTORY_MAX) {
+      history.shift();
+    } else {
+      historyIndex = history.length - 1;
+    }
+    historyIndex = history.length - 1;
+    updateUndoButtons();
+  }
+
+  function undo() {
+    if (historyIndex <= 0) return;
+    historyIndex--;
+    restoreSnapshot(history[historyIndex]);
+  }
+
+  function redo() {
+    if (historyIndex >= history.length - 1) return;
+    historyIndex++;
+    restoreSnapshot(history[historyIndex]);
+  }
+
+  function restoreSnapshot(snap) {
+    suppressHistory = true;
+    const wasEditing = editMode;
+    document.body.innerHTML = snap;
+    attachTabEvents();
+    injectEditControls();
+    // Re-apply edit mode state
+    if (wasEditing) {
+      document.body.classList.add('edit-mode');
+      EDITABLE_SELECTORS.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+          if (el.classList && (el.classList.contains('del-btn') || el.classList.contains('add-btn'))) return;
+          el.setAttribute('contenteditable', 'true');
+        });
+      });
+      const btn = document.getElementById('btn-edit');
+      if (btn) { btn.textContent = '편집 중 · 완료'; btn.classList.add('active'); }
+    }
+    updateUndoButtons();
+    updateTimestamp();
+    suppressHistory = false;
+  }
+
+  function updateUndoButtons() {
+    const undoBtn = document.getElementById('btn-undo');
+    const redoBtn = document.getElementById('btn-redo');
+    if (undoBtn) undoBtn.disabled = historyIndex <= 0;
+    if (redoBtn) redoBtn.disabled = historyIndex >= history.length - 1;
+  }
+
+  // Snapshot on blur of any editable element
+  let blurSaveTimer = null;
+  document.addEventListener('blur', (e) => {
+    if (!editMode || suppressHistory) return;
+    if (e.target.isContentEditable || e.target.getAttribute('contenteditable') === 'true') {
+      clearTimeout(blurSaveTimer);
+      blurSaveTimer = setTimeout(pushHistory, 150);
+    }
+  }, true);
+
+  // Keyboard: Cmd/Ctrl + Z = undo, Cmd/Ctrl + Shift + Z = redo
+  document.addEventListener('keydown', (e) => {
+    const cmd = e.metaKey || e.ctrlKey;
+    if (!cmd) return;
+    const key = e.key.toLowerCase();
+    if (key === 'z' && !e.shiftKey) {
+      e.preventDefault();
+      undo();
+    } else if ((key === 'z' && e.shiftKey) || key === 'y') {
+      e.preventDefault();
+      redo();
+    }
+  });
+
   // ============ Edit Mode ============
   let editMode = false;
   const EDITABLE_SELECTORS = [
@@ -1666,6 +1767,8 @@ ROAS 상위 3개 캠페인:
       });
       btn.textContent = '편집 중 · 완료';
       btn.classList.add('active');
+      // Seed history if empty
+      if (history.length === 0) pushHistory();
     } else {
       document.querySelectorAll('[contenteditable="true"]').forEach(el => {
         el.setAttribute('contenteditable', 'false');
@@ -1693,6 +1796,7 @@ ROAS 상위 3개 캠페인:
       } else {
         link.setAttribute('href', next.trim());
       }
+      pushHistory();
     }
   }, true);
 
@@ -1734,7 +1838,7 @@ ROAS 상위 3개 캠페인:
           btn.innerHTML = '×';
           btn.type = 'button';
           btn.title = '행 삭제';
-          btn.onclick = (e) => { e.stopPropagation(); if (confirm('이 행을 삭제하시겠습니까?')) tr.remove(); };
+          btn.onclick = (e) => { e.stopPropagation(); if (confirm('이 행을 삭제하시겠습니까?')) { tr.remove(); pushHistory(); } };
           td.appendChild(btn);
           tr.appendChild(td);
         });
@@ -1817,7 +1921,10 @@ ROAS 상위 3개 캠페인:
     btn.onclick = (e) => {
       e.stopPropagation();
       e.preventDefault();
-      if (confirm(confirmMsg || '삭제하시겠습니까?')) el.remove();
+      if (confirm(confirmMsg || '삭제하시겠습니까?')) {
+        el.remove();
+        pushHistory();
+      }
     };
     el.appendChild(btn);
   }
@@ -1831,6 +1938,7 @@ ROAS 상위 3개 캠페인:
     addDelButton(li, 'inline', '이 항목을 삭제하시겠습니까?');
     li.focus();
     selectAllText(li);
+    pushHistory();
   }
 
   function addTableRow(table) {
@@ -1851,12 +1959,13 @@ ROAS 상위 3개 캠페인:
     delBtn.className = 'del-btn';
     delBtn.innerHTML = '×';
     delBtn.type = 'button';
-    delBtn.onclick = (e) => { e.stopPropagation(); if (confirm('이 행을 삭제하시겠습니까?')) newRow.remove(); };
+    delBtn.onclick = (e) => { e.stopPropagation(); if (confirm('이 행을 삭제하시겠습니까?')) { newRow.remove(); pushHistory(); } };
     delTd.appendChild(delBtn);
     newRow.appendChild(delTd);
     tbody.appendChild(newRow);
     const firstTd = newRow.querySelector('td');
     if (firstTd) { firstTd.focus(); selectAllText(firstTd); }
+    pushHistory();
   }
 
   function addPartnerCard(grid) {
@@ -1869,6 +1978,7 @@ ROAS 상위 3개 캠페인:
     addDelButton(card, 'inline', '이 카드를 삭제하시겠습니까?');
     const h4 = card.querySelector('h4');
     h4.focus(); selectAllText(h4);
+    pushHistory();
   }
 
   function addToolCard(grid) {
@@ -1881,6 +1991,7 @@ ROAS 상위 3개 캠페인:
     addDelButton(card, 'inline', '이 카드를 삭제하시겠습니까?');
     const h4 = card.querySelector('h4');
     h4.focus(); selectAllText(h4);
+    pushHistory();
   }
 
   function addGlossaryItem(section) {
@@ -1894,6 +2005,7 @@ ROAS 상위 3개 캠페인:
     addDelButton(item, 'inline', '이 용어를 삭제하시겠습니까?');
     const term = item.querySelector('.glossary-term');
     term.focus(); selectAllText(term);
+    pushHistory();
   }
 
   function addTimelineItem(timeline) {
@@ -1910,6 +2022,7 @@ ROAS 상위 3개 캠페인:
     injectEditControls();
     const time = item.querySelector('.timeline-time');
     time.focus(); selectAllText(time);
+    pushHistory();
   }
 
   function selectAllText(el) {
