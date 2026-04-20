@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BELIER 마케팅 업무 매뉴얼</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Pretendard', sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    min-height: 100vh;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  /* Header */
+  .header {
+    background: #1d1d1f;
+    color: #fff;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+  .header h1 .badge { background: #0071e3; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px; font-weight: 500; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .header .updated { font-size: 11px; color: #86868b; }
+  .btn {
+    border: none; cursor: pointer; font-size: 12px; font-weight: 500;
+    padding: 6px 12px; border-radius: 6px;
+  }
+  .btn-primary { background: #0071e3; color: #fff; }
+  .btn-primary:hover { background: #0077ED; }
+  .btn-secondary { background: #3a3a3c; color: #fff; }
+  .btn-secondary:hover { background: #48484a; }
+  .btn-edit { background: #ff9500; color: #fff; }
+  .btn-edit.active { background: #34c759; }
+
+  /* Tabs */
+  .tabs {
+    background: #fff;
+    padding: 0 24px;
+    border-bottom: 1px solid #e5e5e7;
+    position: sticky;
+    top: 52px;
+    z-index: 99;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+  .tab {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #86868b;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab:hover { color: #1d1d1f; }
+  .tab.active { color: #0071e3; border-bottom-color: #0071e3; }
+
+  /* Main */
+  main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+  h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #1d1d1f; }
+  .subtitle { color: #86868b; font-size: 13px; margin-bottom: 24px; }
+
+  /* Card */
+  .card {
+    background: #fff; border-radius: 12px; padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    margin-bottom: 16px;
+  }
+  .card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+
+  /* Flow diagram */
+  .flow-bird {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .flow-box {
+    background: #fff; border-radius: 10px; padding: 16px 12px;
+    text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    border: 2px solid transparent;
+    position: relative;
+  }
+  .flow-box:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-color: #0071e3; }
+  .flow-box .num { font-size: 11px; color: #86868b; font-weight: 600; }
+  .flow-box .dept { font-size: 15px; font-weight: 700; margin: 4px 0; }
+  .flow-box .owner { font-size: 11px; color: #0071e3; }
+  .flow-box.current { background: #0071e3; color: #fff; }
+  .flow-box.current .num, .flow-box.current .owner { color: rgba(255,255,255,0.8); }
+  .flow-box::after {
+    content: '→';
+    position: absolute; right: -12px; top: 50%;
+    transform: translateY(-50%);
+    color: #86868b; font-size: 14px; z-index: 1;
+  }
+  .flow-box:last-child::after { content: ''; }
+
+  /* Summary bar */
+  .summary-bar {
+    display: flex; gap: 0; background: #fff; border-radius: 12px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    margin-bottom: 16px;
+  }
+  .summary-item { flex: 1; padding: 14px 16px; text-align: center; border-right: 1px solid #f0f0f0; }
+  .summary-item:last-child { border-right: none; }
+  .summary-num { font-size: 24px; font-weight: 700; }
+  .summary-num.blue { color: #0071e3; }
+  .summary-num.orange { color: #ff9500; }
+  .summary-num.green { color: #34c759; }
+  .summary-num.purple { color: #af52de; }
+  .summary-label { font-size: 11px; color: #86868b; margin-top: 2px; }
+
+  /* Timeline */
+  .timeline { display: flex; flex-direction: column; gap: 4px; }
+  .timeline-item {
+    display: grid; grid-template-columns: 100px 1fr; gap: 16px;
+    padding: 12px 0; border-bottom: 1px solid #f0f0f0;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-time { font-weight: 600; color: #0071e3; font-size: 13px; }
+  .timeline-time small { display: block; color: #86868b; font-weight: 400; font-size: 11px; }
+  .timeline-task h4 { margin-bottom: 4px; }
+  .timeline-task ul { list-style: none; margin-left: 0; }
+  .timeline-task li { padding: 2px 0; font-size: 13px; color: #3a3a3c; }
+  .timeline-task li::before { content: '•'; color: #86868b; margin-right: 6px; }
+
+  /* Process sheet */
+  .process-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; }
+  .process-col {
+    background: #f5f5f7; border-radius: 8px; padding: 12px;
+    min-height: 160px;
+  }
+  .process-col h4 {
+    text-align: center; padding-bottom: 8px; border-bottom: 1px solid #d1d1d6;
+    margin-bottom: 8px; font-size: 12px;
+  }
+  .process-col.trigger h4 { color: #ff3b30; }
+  .process-col.input h4 { color: #ff9500; }
+  .process-col.activities h4 { color: #0071e3; }
+  .process-col.output h4 { color: #34c759; }
+  .process-col.handoff h4 { color: #af52de; }
+  .process-col ul { list-style: none; font-size: 11px; line-height: 1.5; }
+  .process-col li { padding: 2px 0; position: relative; padding-left: 10px; }
+  .process-col li::before { content: '•'; position: absolute; left: 0; color: #86868b; }
+  .process-col li.placeholder { color: #86868b; font-style: italic; }
+
+  .process-card {
+    background: #fff; border-radius: 12px; padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 16px;
+  }
+  .process-card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+  }
+  .process-card-title { font-size: 17px; font-weight: 600; }
+  .process-card-title .num {
+    display: inline-block; width: 28px; height: 28px; line-height: 28px;
+    text-align: center; background: #0071e3; color: #fff;
+    border-radius: 50%; margin-right: 8px; font-size: 13px; font-weight: 700;
+  }
+  .freq-badge {
+    display: inline-block; background: #e8e8ed; color: #1d1d1f;
+    padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 500;
+  }
+  .freq-badge.daily { background: #ff3b30; color: #fff; }
+  .freq-badge.weekly { background: #ff9500; color: #fff; }
+  .freq-badge.monthly { background: #0071e3; color: #fff; }
+  .freq-badge.season { background: #af52de; color: #fff; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  th { background: #f5f5f7; font-weight: 600; font-size: 12px; color: #3a3a3c; }
+  tr:last-child td { border-bottom: none; }
+  td.dot-red::before, td.dot-orange::before, td.dot-green::before {
+    content: '●'; margin-right: 6px;
+  }
+  .dot-red::before { color: #ff3b30 !important; }
+  .dot-orange::before { color: #ff9500 !important; }
+  .dot-green::before { color: #34c759 !important; }
+
+  /* Tool card */
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .tool-item { background: #fff; padding: 16px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .tool-item h4 { color: #0071e3; margin-bottom: 6px; }
+  .tool-item .url { font-family: 'Monaco', monospace; font-size: 11px; color: #86868b; word-break: break-all; margin-bottom: 6px; }
+  .tool-item .desc { font-size: 12px; color: #3a3a3c; }
+
+  /* Glossary */
+  .glossary-item {
+    background: #fff; padding: 14px 16px; border-radius: 10px;
+    margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    display: grid; grid-template-columns: 160px 1fr; gap: 16px; align-items: start;
+  }
+  .glossary-term { font-weight: 700; color: #0071e3; }
+
+  /* Editable */
+  [contenteditable="true"] {
+    outline: 2px dashed #ff9500;
+    outline-offset: 2px;
+    border-radius: 4px;
+    padding: 2px 4px;
+    background: rgba(255, 149, 0, 0.05);
+  }
+  [contenteditable="true"]:focus { outline-color: #0071e3; background: rgba(0, 113, 227, 0.05); }
+
+  /* Partner list */
+  .partner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .partner-card { background: #fff; padding: 14px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .partner-card h4 { font-size: 14px; }
+  .partner-card .type { font-size: 11px; color: #86868b; margin-bottom: 6px; }
+  .partner-card .notes { font-size: 12px; color: #3a3a3c; margin-top: 6px; }
+
+  /* Category map */
+  .category-map { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .category-block {
+    background: #fff; padding: 16px; border-radius: 10px;
+    border-top: 3px solid #0071e3;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .category-block.planning { border-top-color: #ff3b30; }
+  .category-block.content { border-top-color: #ff9500; }
+  .category-block.channel { border-top-color: #ffcc00; }
+  .category-block.ads { border-top-color: #34c759; }
+  .category-block.partner { border-top-color: #0071e3; }
+  .category-block.report { border-top-color: #af52de; }
+  .category-block h4 { display: flex; justify-content: space-between; align-items: center; }
+  .category-block ul { list-style: none; margin-top: 8px; }
+  .category-block li { padding: 3px 0; font-size: 12px; color: #3a3a3c; }
+  .category-block li::before { content: '✓'; color: #34c759; margin-right: 6px; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .flow-bird { grid-template-columns: repeat(2, 1fr); }
+    .flow-box::after { content: ''; }
+    .process-grid { grid-template-columns: 1fr; }
+    .timeline-item { grid-template-columns: 80px 1fr; }
+  }
+
+  .notice {
+    background: #fff8e1; border-left: 3px solid #ff9500;
+    padding: 12px 16px; border-radius: 8px; font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .notice.blue { background: #e3f2fd; border-left-color: #0071e3; }
+  .notice.green { background: #e8f5e9; border-left-color: #34c759; }
+
+  .ref-link { font-size: 11px; color: #86868b; margin-top: 8px; font-style: italic; }
+  .ref-link a { color: #0071e3; text-decoration: none; }
+  .ref-link a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>BELIER 통합 업무 매뉴얼 <span class="badge">마케팅</span></h1>
+  <div class="header-right">
+    <span class="updated" id="updated">최종 수정: -</span>
+    <button class="btn btn-edit" id="btn-edit" onclick="toggleEdit()">편집 모드</button>
+    <button class="btn btn-secondary" onclick="saveAll()">저장</button>
+    <button class="btn btn-secondary" onclick="exportHTML()">HTML 내보내기</button>
+    <button class="btn btn-secondary" onclick="resetAll()">초기화</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tab active" data-tab="home">🏠 회사 전체 flow</div>
+  <div class="tab" data-tab="category">업무 카테고리 맵</div>
+  <div class="tab" data-tab="daily">일일 루틴</div>
+  <div class="tab" data-tab="process">프로세스 시트 (8)</div>
+  <div class="tab" data-tab="partners">외부 협업 리스트</div>
+  <div class="tab" data-tab="tools">도구 접속 가이드</div>
+  <div class="tab" data-tab="budget">월간 정산 루틴</div>
+  <div class="tab" data-tab="glossary">용어집</div>
+  <div class="tab" data-tab="forms">템플릿 & 양식</div>
+</nav>
+
+<main>
+
+<!-- ===== HOME: 전체 flow ===== -->
+<section class="panel active" id="tab-home">
+  <h2>벨리에 전체 업무 Flow</h2>
+  <p class="subtitle">기획부터 고객 재구매까지. 각 단계를 클릭하면 담당 부서 매뉴얼로 이동합니다.</p>
+
+  <div class="flow-bird">
+    <div class="flow-box" onclick="alert('기획/디자인 매뉴얼 — 준비 중')">
+      <div class="num">STEP 1</div>
+      <div class="dept">기획·디자인</div>
+      <div class="owner">대표·디자인팀</div>
+    </div>
+    <div class="flow-box" onclick="openManual('production')">
+      <div class="num">STEP 2</div>
+      <div class="dept">생산</div>
+      <div class="owner">승환님·찬웅님·정완님</div>
+    </div>
+    <div class="flow-box" onclick="alert('물류 매뉴얼 — 준비 중')">
+      <div class="num">STEP 3</div>
+      <div class="dept">물류·입고</div>
+      <div class="owner">물류센터</div>
+    </div>
+    <div class="flow-box current">
+      <div class="num">STEP 4 · 여기</div>
+      <div class="dept">마케팅</div>
+      <div class="owner">마케팅팀</div>
+    </div>
+    <div class="flow-box" onclick="alert('판매 매뉴얼 — 준비 중')">
+      <div class="num">STEP 5</div>
+      <div class="dept">판매</div>
+      <div class="owner">온라인·오프라인</div>
+    </div>
+    <div class="flow-box" onclick="openCSManual()">
+      <div class="num">STEP 6</div>
+      <div class="dept">CS·AS</div>
+      <div class="owner">CS팀</div>
+    </div>
+  </div>
+
+  <div class="notice blue">
+    <strong>💡 마케팅의 역할</strong><br>
+    생산된 상품이 고객에게 "왜 필요한지"를 전달하고, 판매로 이어지게 하는 단계입니다.
+    위로는 기획/생산의 스토리를 받고, 아래로는 CS/재구매 데이터를 피드백합니다.
+  </div>
+
+  <div class="card-row">
+    <div class="card">
+      <h3>📥 위에서 받는 것 (Input)</h3>
+      <ul style="list-style:none;">
+        <li>• 시즌 발매 일정 (기획팀)</li>
+        <li>• 라인시트 · 샘플 (기획/디자인팀)</li>
+        <li>• 생산 완료 일정 (생산팀)</li>
+        <li>• 대표 승인 (예산·행사·콜라보)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📤 아래로 넘기는 것 (Output)</h3>
+      <ul style="list-style:none;">
+        <li>• 콘텐츠 (스토리·피드·릴스·룩북)</li>
+        <li>• 광고/CRM 캠페인 노출</li>
+        <li>• 협찬/시딩 발송 리스트 → 물류</li>
+        <li>• 판매 리포트 · ROAS → 대표/기획</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔄 반복 주기</h3>
+      <ul style="list-style:none;">
+        <li>• 일간: 스토리·채널 운영·CRM</li>
+        <li>• 주간: 기획 회의·성과 리포트</li>
+        <li>• 월간: 비용 정산·협업 정산</li>
+        <li>• 시즌: 발매 행사·룩북·대형 캠페인</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="ref-link">
+    📎 관련 기존 문서:
+    <a href="file:///Users/bong/Downloads/벨리에_생산관리_매뉴얼.html" target="_blank">생산관리 매뉴얼</a> ·
+    <a href="file:///Users/bong/Downloads/벨리에_생산관리_프로세스_플로우차트.html" target="_blank">생산 플로우차트</a> ·
+    <a href="https://belier-calendar.vercel.app/" target="_blank">CS 매뉴얼</a>
+  </p>
+</section>
+
+<!-- ===== 업무 카테고리 맵 ===== -->
+<section class="panel" id="tab-category">
+  <h2>업무 카테고리 맵</h2>
+  <p class="subtitle">마케팅 업무 6대 카테고리. 전체 업무가 어디에 속하는지 파악하는 첫 화면.</p>
+
+  <div class="summary-bar">
+    <div class="summary-item"><div class="summary-num blue">6</div><div class="summary-label">카테고리</div></div>
+    <div class="summary-item"><div class="summary-num orange">8</div><div class="summary-label">프로세스 시트</div></div>
+    <div class="summary-item"><div class="summary-num green">15+</div><div class="summary-label">반복 업무</div></div>
+    <div class="summary-item"><div class="summary-num purple">5</div><div class="summary-label">외부 협업 파트너</div></div>
+  </div>
+
+  <div class="category-map">
+    <div class="category-block planning">
+      <h4>① 기획 <span class="freq-badge weekly">주+시즌</span></h4>
+      <ul>
+        <li>시즌 마케팅 기획 (오프라인 행사 포함)</li>
+        <li>주간 마케팅 기획</li>
+        <li>마케팅 예산 작성</li>
+      </ul>
+    </div>
+
+    <div class="category-block content">
+      <h4>② 콘텐츠 제작 <span class="freq-badge daily">일간+</span></h4>
+      <ul>
+        <li>매일 스토리 업로드</li>
+        <li>피드 기획 (정다은님 협업)</li>
+        <li>룩북 제작</li>
+      </ul>
+    </div>
+
+    <div class="category-block channel">
+      <h4>③ 채널 운영 <span class="freq-badge daily">상시</span></h4>
+      <ul>
+        <li>인스타 피드·릴스·스토리</li>
+        <li>플랫폼 업로드 (29CM · 무신사)</li>
+        <li>데이터라이즈 온사이트 캠페인</li>
+      </ul>
+    </div>
+
+    <div class="category-block ads">
+      <h4>④ 광고·CRM <span class="freq-badge daily">일간</span></h4>
+      <ul>
+        <li>데이터라이즈 메시지 캠페인</li>
+        <li>카카오톡 DM</li>
+        <li>채널톡 운영 (마케팅 관점)</li>
+      </ul>
+    </div>
+
+    <div class="category-block partner">
+      <h4>⑤ 대외 협업 <span class="freq-badge weekly">비정기</span></h4>
+      <ul>
+        <li>협찬 (메일·채널톡·어치브먼트)</li>
+        <li>테이크아웃 브랜드 소통</li>
+        <li>협업건 (패션플랫폼서울·후디진호 등)</li>
+      </ul>
+    </div>
+
+    <div class="category-block report">
+      <h4>⑥ 분석·리포팅 <span class="freq-badge monthly">월간</span></h4>
+      <ul>
+        <li>마케팅 비용 정산</li>
+        <li>ROAS · CTR 분석</li>
+        <li>월별 판매 데이터 관리</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:24px;">
+    <h3>📊 빈도별 업무 분류</h3>
+    <table>
+      <thead><tr><th>업무명</th><th>일간</th><th>주간</th><th>월간</th><th>시즌·비정기</th></tr></thead>
+      <tbody>
+        <tr><td>스토리 업로드</td><td>✅</td><td></td><td></td><td></td></tr>
+        <tr><td>채널톡 (마케팅 관점)</td><td>✅</td><td></td><td></td><td></td></tr>
+        <tr><td>데이터라이즈 온사이트 캠페인</td><td>✅</td><td>✅</td><td></td><td></td></tr>
+        <tr><td>피드 기획 (정다은님 협업)</td><td></td><td>✅</td><td></td><td></td></tr>
+        <tr><td>주간 마케팅 기획 회의</td><td></td><td>✅</td><td></td><td></td></tr>
+        <tr><td>플랫폼 운영 (29CM · 무신사)</td><td></td><td>✅</td><td></td><td></td></tr>
+        <tr><td>시기별 CRM 세팅</td><td></td><td>✅</td><td></td><td></td></tr>
+        <tr><td>마케팅 비용 정산·리포팅</td><td></td><td></td><td>✅</td><td></td></tr>
+        <tr><td>협업건 소통 (정산·판매 데이터)</td><td></td><td></td><td>✅</td><td></td></tr>
+        <tr><td>테이크아웃 브랜드 소통</td><td></td><td>✅</td><td>✅</td><td></td></tr>
+        <tr><td>협찬 진행</td><td></td><td></td><td></td><td>✅</td></tr>
+        <tr><td>오프라인 행사 기획·준비</td><td></td><td></td><td></td><td>✅</td></tr>
+        <tr><td>룩북 제작</td><td></td><td></td><td></td><td>✅</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 일일 루틴 ===== -->
+<section class="panel" id="tab-daily">
+  <h2>일일 루틴</h2>
+  <p class="subtitle">마케팅 담당자 기준 하루 업무 순서. 시기/시즌에 따라 조정됨. <strong>편집 모드에서 본인 실제 루틴으로 수정하세요.</strong></p>
+
+  <div class="notice">
+    <strong>⚠️ 이 일일 루틴은 추정치입니다.</strong> 전임자 인수인계 기반 + CS팀 패턴 참고. 실제 담당자가 입사 후 본인의 루틴으로 수정해야 합니다.
+  </div>
+
+  <div class="card">
+    <h3>🌅 오전 (09:00 ~ 13:00)</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">09:00<small>~09:30</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">출근 & 채널 상태 점검</h4>
+          <ul>
+            <li contenteditable="false">인스타그램 알림 확인 (DM · 멘션 · 태그)</li>
+            <li contenteditable="false">밤사이 스토리 리액션/답글 체크</li>
+            <li contenteditable="false">채널톡 데스크 로그인 (마케팅 관련 문의 확인)</li>
+            <li contenteditable="false">29CM · 무신사 파트너센터 로그인</li>
+            <li contenteditable="false">데이터라이즈 대시보드 전일 성과 훑기</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">09:30<small>~10:30</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">아침 스토리 업로드 & 메일 확인</h4>
+          <ul>
+            <li contenteditable="false">오늘 업로드할 스토리 콘텐츠 최종 확정 → 업로드</li>
+            <li contenteditable="false">재입고/발매 알림 스토리 우선 처리</li>
+            <li contenteditable="false">협찬 요청 메일 확인 (다음메일 · MD1 메일 · 어치브먼트)</li>
+            <li contenteditable="false">협찬 요청 → 기획시트·라인시트에서 샘플 위치 파악</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:30<small>~12:00</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">주요 업무 블록 (요일별 상이)</h4>
+          <ul>
+            <li contenteditable="false"><strong>월요일:</strong> 주간 마케팅 기획 회의 준비 · 발표</li>
+            <li contenteditable="false"><strong>화·목:</strong> 정다은님과 피드 기획 (촬영 디렉션 · 카피)</li>
+            <li contenteditable="false"><strong>수·금:</strong> 플랫폼 업로드 (29CM 기획전 · 무신사 신상 등록)</li>
+            <li contenteditable="false">급건: 협찬 발송 처리 (이지어드민 수동발주)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:00<small>~13:00</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">점심</h4>
+          <ul>
+            <li contenteditable="false">채널톡 상태 → 부재중</li>
+            <li contenteditable="false">진행 중 협찬/시딩 건 메모</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌞 오후 (13:00 ~ 18:30)</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">13:00<small>~14:30</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">CRM · 온사이트 캠페인 관리</h4>
+          <ul>
+            <li contenteditable="false">데이터라이즈 온사이트 캠페인 노출 확인 (동시 노출 과다 시 조정)</li>
+            <li contenteditable="false">데이터라이즈 메시지 캠페인 준비/발송</li>
+            <li contenteditable="false">카카오톡 DM 타겟 리스트 업데이트</li>
+            <li contenteditable="false">시기별 CRM 세팅 (크루데이·이벤트 대응)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">14:30<small>~16:00</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">협업/외부 소통</h4>
+          <ul>
+            <li contenteditable="false">테이크아웃 브랜드 단톡방 확인 · 셀렉 리스트 푸시</li>
+            <li contenteditable="false">콜라보 파트너 소통 (패션플랫폼서울 · 후디진호 · BUJ · 이핏 · 김승환 · 코인서울)</li>
+            <li contenteditable="false">신규 인플루언서 디깅 (파리·해외·국내 SNS 서칭)</li>
+            <li contenteditable="false">라인시트 업데이트 (발매 일정 기준)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">16:00<small>~17:30</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">콘텐츠 · 다음날 준비</h4>
+          <ul>
+            <li contenteditable="false">내일 업로드할 스토리·피드 초안 작성</li>
+            <li contenteditable="false">정다은님 피드 초안 검수</li>
+            <li contenteditable="false">29CM/무신사 체험단 · 기획전 진행 상황 업데이트</li>
+            <li contenteditable="false">룩북 업로드 · 플래그십 스토어 사진 변경 (시즌 전환기)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">17:30<small>~18:30</small></div>
+        <div class="timeline-task">
+          <h4 contenteditable="false">마감 체크리스트</h4>
+          <ul>
+            <li contenteditable="false">오늘 콘텐츠 성과 기록 (도달·저장·공유·프로필 방문)</li>
+            <li contenteditable="false">브랜드 운영시트 '개별_브랜드이슈' 탭 업데이트</li>
+            <li contenteditable="false">저녁 스토리 업로드 (퇴근 전 예약 가능)</li>
+            <li contenteditable="false">내일 스케줄 1줄 메모</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📅 요일·주기별 특별 업무</h3>
+    <table>
+      <thead><tr><th>주기</th><th>업무</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td><strong>매주 월요일</strong></td><td>주간 마케팅 업무 발표</td><td>대표 참석 · 지난주 성과 + 이번주 계획</td></tr>
+        <tr><td><strong>매주 금요일</strong></td><td>주간 성과 리포트 작성</td><td>CS팀 주간회의 데이터와 연동</td></tr>
+        <tr><td><strong>매월 월말</strong></td><td>마케팅 비용 정산</td><td>채널톡·데이터라이즈·DM·시딩·룩북 비용 집계</td></tr>
+        <tr><td><strong>매월 1일</strong></td><td>회원등급(크루컬러) 갱신 확인</td><td>CS팀과 공유 · 컬러쿠폰 발행 대응</td></tr>
+        <tr><td><strong>시즌 발매 전</strong></td><td>프레젠테이션 행사 (시즌별 2회)</td><td>인플루언서 컨택·샘플 준비·베네핏 컨펌</td></tr>
+        <tr><td><strong>시즌 중</strong></td><td>룩북 제작 · 업로드</td><td>촬영팀 · 정다은님과 협업</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 프로세스 시트 8개 ===== -->
+<section class="panel" id="tab-process">
+  <h2>프로세스 시트 (8개)</h2>
+  <p class="subtitle">각 업무를 <strong>Trigger → Input → Activities → Output → Handoff</strong> 5단계로 정리. 예시가 적힌 칸은 편집 모드에서 실제 내용으로 수정.</p>
+
+  <!-- ① 프레젠테이션 행사 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">①</span>프레젠테이션 행사 기획 및 준비</div>
+      <span class="freq-badge season">시즌별 2회</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>시즌 첫 발매 이전 프레젠테이션 진행</li>
+          <li class="placeholder">(추가 조건을 편집 모드에서)</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>시즌 발매 일정</li>
+          <li>샘플 수급 일자</li>
+          <li>행사 일자·장소·규모</li>
+          <li>시즌 컬렉션 라인시트</li>
+          <li>예산 컨펌 (대표)</li>
+          <li>인플루언서 컨택 리스트</li>
+          <li>크루 베네핏 관련</li>
+          <li>이전 행사 결과 리포트</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>행사 준비 · 케이터링 · 샘플 준비</li>
+          <li>판매 가능 아이템 정리</li>
+          <li>베네핏 컨펌 · 스태프 전략 수립</li>
+          <li>오프라인 스태프 휴가 조율</li>
+          <li>행사 음료 발주</li>
+          <li>인플루언서 컨택 & 일정 조율</li>
+          <li>행사 중 스토리 리그램</li>
+          <li>신규 인플루언서 디깅 · 초청</li>
+          <li>프라이빗 촬영 일정 조율</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>행사 진행 완료 보고</li>
+          <li>현장 사진·영상 (콘텐츠 활용)</li>
+          <li>판매 실적 정리</li>
+          <li>인플루언서 참석 명단·후기</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>사진·영상 → 2차 활용 컨펌 · 콘텐츠팀</li>
+          <li>판매 실적 → 마케팅 비용 정산</li>
+          <li>인플루언서 후기 → SNS 리포스팅</li>
+          <li>결과 보고 → 전체 팀 공유</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ①-2 오프라인 행사 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">①-2</span>오프라인 행사 기획 및 준비</div>
+      <span class="freq-badge">비정기</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>외부 행사 초대·참가 확정</li>
+          <li>마케팅 담당자 제안</li>
+          <li>대표 기획 지시</li>
+          <li>콜라보 브랜드 제안 수락</li>
+          <li>특정 유튜버 팝업 진행</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>행사 일자·장소·규모</li>
+          <li>시즌 컬렉션 라인시트</li>
+          <li>팝업 구역·행거 리스트</li>
+          <li>예산 승인 (대표)</li>
+          <li>이전 행사 결과 리포트</li>
+          <li>미니멈 프로모션 스킴</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>행사 세팅 · 운영 인력 컨펌</li>
+          <li>재고 준비 · 이동 동선 확인</li>
+          <li>판매/프로모션 수립</li>
+          <li>행사 참석 · 마케팅 진행</li>
+          <li>인플루언서 컨택 (필요시)</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>행사 진행 완료 보고</li>
+          <li>현장 사진·영상</li>
+          <li>판매 실적 정리</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>사진·영상 → 콘텐츠팀 (피드/릴스)</li>
+          <li>판매 실적 → 마케팅 비용 정산</li>
+          <li>인플루언서 후기 → SNS 리포스팅</li>
+          <li>결과 보고 → 대표</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 협찬 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">②</span>협찬</div>
+      <span class="freq-badge">비정기 (요청 기반)</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>인플루언서/매체 협찬 요청 수신</li>
+          <li>내부 기획 시딩 결정</li>
+          <li>바이럴 감소 시</li>
+          <li>신상품 출시 후 바이럴 필요</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>협찬 요청 내용 (채널·팔로워·컨셉)</li>
+          <li>기획시트·라인시트 (샘플 위치·재고)</li>
+          <li>협찬 기준표 (팔로워별 범위)</li>
+          <li>벨리에 제품 협찬 시트 양식<br>→ 연예인 반납 기반만</li>
+          <li>대표 컨펌</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>다음메일·MD1 메일·채널톡·어치브먼트 모두 확인</li>
+          <li>기획시트·라인시트에서 샘플 위치 파악</li>
+          <li>제품 발송 가능 여부 컨펌</li>
+          <li>스타일리스트에게 공유</li>
+          <li>협찬서 작성 (반납건만)</li>
+          <li>동봉 · 배송</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>협찬 발송 완료 내역</li>
+          <li>협찬서 사본 (반납건)</li>
+          <li>크리에이터 게시 예정일</li>
+          <li>게시 후 성과 (도달·저장·유입)<br>→ 브랜드 운영시트_브랜드이슈에 작성</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>발송 내역 → 이지어드민 수동발주</li>
+          <li>급건 → 퀵배차</li>
+          <li>협찬 비용 → 마케팅 비용 정산 (원가 반영)</li>
+          <li>성과 좋은 인플루언서 → 재협찬 리스트</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 마케팅 비용 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">③</span>마케팅 비용 정산</div>
+      <span class="freq-badge monthly">월간 + 일간</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>월말 정산 시점</li>
+          <li>데이터라이즈 사용 내역서 수신</li>
+          <li>대표 비용 리포트 요청</li>
+          <li>새 캠페인 비용 발생</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>브랜드 운영시트 (개별_브랜드이슈 탭)</li>
+          <li>채널톡 초과 사용량 내역</li>
+          <li>데이터라이즈 월별 사용 내역서</li>
+          <li>카카오톡 DM 발송 내역</li>
+          <li>룩북 제작 견적서</li>
+          <li>시딩 원가 내역서</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>브랜드 운영시트 '개별_브랜드이슈' 작성</li>
+          <li>채널톡 초과 사용량 중 마케팅분 계산</li>
+          <li>데이터라이즈 월별 내역 확인</li>
+          <li>카톡 DM 건별 확인 → ROAS/CTR 작성</li>
+          <li>추가 저널·마케팅 예산 작성</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>월간 마케팅 비용 정산표</li>
+          <li>채널별 ROAS/CTR 분석</li>
+          <li>다음 달 예산 제안서</li>
+          <li>비용 대비 성과 요약 (1장)</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>정산표 → 대표 검토·승인</li>
+          <li>ROAS 분석 → 주간 마케팅 기획 반영</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 테이크아웃 브랜드 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">④</span>테이크아웃 브랜드</div>
+      <span class="freq-badge weekly">주간 ~ 정기</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>여성 신상품 발매 확정</li>
+          <li>테이크아웃 브랜드 문의 수신</li>
+          <li>여성 마케팅 필요 시점</li>
+          <li>추가 여성 바이럴 필요</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>발매 스케줄 (시즌 캘린더)</li>
+          <li>라인시트 (상품 정보·이미지)</li>
+          <li>출고 가능 시점</li>
+          <li>시딩 기준 (타겟·수량·조건)</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>단톡방 소통</li>
+          <li>추가 셀렉 리스트 푸시</li>
+          <li>라인시트 주기적 업로드</li>
+          <li>시딩 리스트업</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>업데이트 라인시트</li>
+          <li>시딩 발송 리스트</li>
+          <li>피드백 정리</li>
+          <li>셀렉 진행 현황표</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>발송 → 이지어드민 수동발주</li>
+          <li>셀렉 확정 → 마케팅 리스트</li>
+          <li>피드백 → 대표 공유</li>
+          <li>인플루언서 후기 → SNS 리포스팅</li>
+          <li>여성 마케팅 게시물 → 전체 공유</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 협업건 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">⑤</span>협업건 소통</div>
+      <span class="freq-badge monthly">월간 ~ 비정기</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>콜라보 기획</li>
+          <li>콜라보 발매 일정 (패션플랫폼서울 4월, 후디진호 5월)</li>
+          <li>월말 판매 데이터 집계</li>
+          <li>정산 일정 (매달)</li>
+          <li>신규 협업 제안 수신</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>각 파트너 계약 조건 (정산 비율·일정)</li>
+          <li>월별 판매 데이터</li>
+          <li>발매 스케줄·상품 정보</li>
+          <li>이전 협업 결과 리포트</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>패션플랫폼서울 소통 (4월 발매)</li>
+          <li>후디진호 소통 (5월 발매)</li>
+          <li>BUJ · 이핏 · 김승환 소통</li>
+          <li>월별 판매 데이터 공유</li>
+          <li>월별 정산 소통</li>
+          <li>코인 서울 FW 기획 미팅</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>월별 판매 리포트 (크리에이터별)</li>
+          <li>정산 내역서</li>
+          <li>발매 진행 상황</li>
+          <li>협업 성과 요약 (매출·노출)</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>정산 → 경영지원/회계</li>
+          <li>판매 리포트 → 대표</li>
+          <li>발매 일정 → SNS팀 (콘텐츠 연동)</li>
+          <li>성과 → 다음 시즌 협업 판단 자료</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ 플랫폼 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">⑥</span>플랫폼 운영 (29CM · 무신사)</div>
+      <span class="freq-badge daily">상시</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>플랫폼 관련 업무 진행 시</li>
+          <li>기획전 모집 공지</li>
+          <li>신상품 발매 확정</li>
+          <li>체험단 모집 기간</li>
+          <li>마케팅 리스트 체크리스트 갱신</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>기획전 신청 가이드 (플랫폼 제공)</li>
+          <li>상품 정보·이미지·룩북</li>
+          <li>체험단 운영 기준</li>
+          <li>마케팅 리스트 > 체크리스트 탭</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>플랫폼 기획전 참여</li>
+          <li>발매 등록 · 체험단 진행</li>
+          <li>룩북 업로드</li>
+          <li>마케팅 리스트 체크리스트 확인</li>
+          <li>플래그십스토어 사진 변경</li>
+          <li>신규 등록 시 아이템 태그 추가</li>
+          <li>영상·스냅 사진 업로드</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>기획전 등록 완료</li>
+          <li>상품 페이지 라이브 링크</li>
+          <li>체험단 선정 명단·후기</li>
+          <li>플랫폼별 판매 데이터</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>기획전 기획시트에 작성</li>
+          <li>체험단 후기 → 플로우 업로드</li>
+          <li>플랫폼 이슈 → 기획팀 (재고·가격)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦ 데이터라이즈 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">⑦</span>데이터라이즈 (CRM)</div>
+      <span class="freq-badge weekly">주간 ~ 상시</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>CRM 마케팅 진행</li>
+          <li>특정 카테고리 마케팅 집중</li>
+          <li>시즌 변경</li>
+          <li>특정 저널/행사 진행</li>
+          <li>홈페이지 세팅 변경</li>
+          <li>컬러 크루데이 진행</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>캠페인 대상 상품 리스트</li>
+          <li>타겟 고객 세그먼트 (신규·재구매·VIP)</li>
+          <li>크리에이티브 소재 (이미지·카피)</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>온사이트 캠페인 진행 (시기·시즌·이슈별)</li>
+          <li>※ 동시 노출 다수 지양 중</li>
+          <li>메시지 캠페인 — 새로운 방식 지속 기획</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>캠페인 세팅 완료 (라이브)</li>
+          <li>성과 리포트 (노출·CTR·전환율)</li>
+          <li>개선 포인트 메모</li>
+          <li>※ 최근 변경 후 1개월 데이터 수집 중</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>성과 리포트 → 주간/월간 발표</li>
+          <li>소재 → 이미지 아카이브 저장 (재사용)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑧ 마케팅 기획 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">⑧</span>마케팅 기획</div>
+      <span class="freq-badge daily">일간 ~ 주간</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>매주 월요일 주간 업무 발표</li>
+          <li>매일 아침 스토리·피드 계획</li>
+          <li>시즌·이벤트 일정 도래</li>
+          <li>프레젠테이션/오프라인 행사 기획</li>
+          <li>특정 아이템 바이럴 필요</li>
+          <li>무신사·29CM 이벤트 진행</li>
+          <li>새 시즌 기획</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>시즌 마케팅 캘린더</li>
+          <li>발매·재입고 스케줄</li>
+          <li>이전 주 콘텐츠 성과</li>
+          <li>촬영 완료 이미지·영상 소재</li>
+          <li>정다은님 피드 기획 아이디어</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>주간 마케팅 기획</li>
+          <li>매일 스토리 업로드<br>(시기·계절성·발매·재입고 이슈)</li>
+          <li>정다은님과 피드 기획</li>
+          <li>미팅 일정 공유</li>
+          <li>전반적인 행사 기획</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>주간 콘텐츠 캘린더 (요일별)</li>
+          <li>업로드된 스토리·피드</li>
+          <li>성과 기록 (도달·저장·공유·방문)</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>주간 캘린더 → 대표 사전 승인</li>
+          <li>성과 → 주간 리포트</li>
+          <li>고성과 콘텐츠 → 광고 소재 전환 (메타·데이터라이즈)</li>
+          <li>피드 기획 → 촬영팀 (다음 촬영 방향)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 외부 협업 리스트 ===== -->
+<section class="panel" id="tab-partners">
+  <h2>외부 협업 리스트</h2>
+  <p class="subtitle">협업 파트너 · 테이크아웃 브랜드 · 주요 인플루언서. 담당자 바뀔 때마다 업데이트.</p>
+
+  <h3 style="margin-top:8px;">🤝 콜라보 파트너</h3>
+  <div class="partner-grid">
+    <div class="partner-card">
+      <div class="type">콜라보</div>
+      <h4 contenteditable="false">패션플랫폼서울</h4>
+      <div class="notes" contenteditable="false">2026-04 발매 예정. 정산 비율·발매 스케줄 계약 조건 확인.</div>
+    </div>
+    <div class="partner-card">
+      <div class="type">콜라보</div>
+      <h4 contenteditable="false">후디진호</h4>
+      <div class="notes" contenteditable="false">2026-05 발매 예정. 콜라보 아이템 기획 진행 중.</div>
+    </div>
+    <div class="partner-card">
+      <div class="type">협업</div>
+      <h4 contenteditable="false">BUJ</h4>
+      <div class="notes" contenteditable="false">월별 판매 데이터 공유 · 정산 소통.</div>
+    </div>
+    <div class="partner-card">
+      <div class="type">협업</div>
+      <h4 contenteditable="false">이핏</h4>
+      <div class="notes" contenteditable="false">월별 판매 데이터 공유 · 정산 소통.</div>
+    </div>
+    <div class="partner-card">
+      <div class="type">협업</div>
+      <h4 contenteditable="false">김승환</h4>
+      <div class="notes" contenteditable="false">월별 판매 데이터 공유 · 정산 소통.</div>
+    </div>
+    <div class="partner-card">
+      <div class="type">기획 미팅 중</div>
+      <h4 contenteditable="false">코인 서울</h4>
+      <div class="notes" contenteditable="false">FW 시즌 기획 미팅 진행 중.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px;">👚 테이크아웃 브랜드 (여성 시딩)</h3>
+  <div class="notice">
+    <strong>구조:</strong> 여성 신상품 발매 시 셀렉 리스트 단톡방 공유 → 라인시트 업로드 → 시딩 리스트업 → 이지어드민 수동발주
+  </div>
+  <div class="partner-grid">
+    <div class="partner-card">
+      <div class="type">여성 시딩 파트너</div>
+      <h4 contenteditable="false">(브랜드명 추가)</h4>
+      <div class="notes" contenteditable="false">편집 모드에서 실제 파트너사 추가하세요. 연락 담당자 · 주요 컨택 루트 · 최근 시딩 이력.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px;">🎨 인플루언서 관리</h3>
+  <div class="card">
+    <h4>티어별 협찬 기준 (표준안 — 편집 모드에서 실제 기준으로 수정)</h4>
+    <table>
+      <thead><tr><th>티어</th><th>팔로워</th><th>협찬 범위</th><th>반납 여부</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>S급 (셀럽)</td><td>50만+</td><td>시즌 주력 아이템 + 룩</td><td>반납</td><td>협찬서 작성 필수</td></tr>
+        <tr><td>A급</td><td>10만~50만</td><td>주력 아이템 1~2점</td><td>반납 or 무상</td><td>대표 컨펌</td></tr>
+        <tr><td>B급</td><td>3만~10만</td><td>단일 아이템</td><td>무상</td><td>기본 협찬</td></tr>
+        <tr><td>C급 (시딩)</td><td>1만~3만</td><td>단일 아이템</td><td>무상</td><td>테이크아웃 브랜드/시딩</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 도구 접속 가이드 ===== -->
+<section class="panel" id="tab-tools">
+  <h2>도구 접속 가이드</h2>
+  <p class="subtitle">마케팅 담당이 매일 쓰는 툴. 로그인 정보는 별도 비밀번호 관리자 (1Password · Keychain 등) 사용.</p>
+
+  <div class="notice">
+    <strong>🔐 계정 정보는 여기에 적지 마세요.</strong> 신규 담당자 온보딩 시 대표님/승환님으로부터 각 툴 계정 권한을 개별 부여받는 프로세스로 진행.
+  </div>
+
+  <h3>📱 채널 · 업로드</h3>
+  <div class="tool-grid">
+    <div class="tool-item">
+      <h4>인스타그램 @belier_atelier</h4>
+      <div class="url">https://www.instagram.com/belier_atelier</div>
+      <div class="desc" contenteditable="false">공식 계정. 스토리·피드·릴스 업로드. 협찬/DM 모니터링. 정다은님과 피드 기획 협업.</div>
+    </div>
+    <div class="tool-item">
+      <h4>카페24 어드민</h4>
+      <div class="url">https://eclogin.cafe24.com/</div>
+      <div class="desc" contenteditable="false">자사몰. 상품 등록·쿠폰 발행·회원 관리·주문 조회. 마케팅 이벤트 배너 게시.</div>
+    </div>
+    <div class="tool-item">
+      <h4>29CM 파트너센터</h4>
+      <div class="url">https://partners.29cm.co.kr/</div>
+      <div class="desc" contenteditable="false">기획전 신청 · 체험단 운영 · 상품 등록 · 룩북 업로드. 리뷰/Q&A는 CS팀 담당.</div>
+    </div>
+    <div class="tool-item">
+      <h4>무신사 파트너센터</h4>
+      <div class="url">https://partners.musinsa.com/</div>
+      <div class="desc" contenteditable="false">기획전 · 체험단 · 상품 등록 · 스냅 사진 업로드.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px;">📊 CRM · 광고</h3>
+  <div class="tool-grid">
+    <div class="tool-item">
+      <h4>데이터라이즈 (Dataplus)</h4>
+      <div class="url">https://www.dataplus.ai/ (계정 확인 필요)</div>
+      <div class="desc" contenteditable="false">온사이트 캠페인 (팝업·배너·이탈 방지) + 메시지 캠페인 (이메일·문자·앱 푸시). 월별 사용 내역서 메일 수신 → 비용 정산.</div>
+    </div>
+    <div class="tool-item">
+      <h4>채널톡 (마케팅 관점)</h4>
+      <div class="url">https://desk.channel.io/</div>
+      <div class="desc" contenteditable="false">CS팀이 주 사용. 마케팅은 초과 사용량 모니터링 · 월간 비용 정산에 반영.</div>
+    </div>
+    <div class="tool-item">
+      <h4>카카오톡 알림톡 / DM</h4>
+      <div class="url">카카오비즈니스 · 알리고 등 사용 플랫폼 확인</div>
+      <div class="desc" contenteditable="false">DM 건별 성과 → ROAS/CTR 작성. 월말 정산.</div>
+    </div>
+    <div class="tool-item">
+      <h4>크리마</h4>
+      <div class="url">https://cre.ma/</div>
+      <div class="desc" contenteditable="false">리뷰 수집·적립금 지급. CS팀 담당이지만 마케팅 소재(리뷰 발췌)로 활용.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px;">📋 내부 시트 · 문서</h3>
+  <div class="tool-grid">
+    <div class="tool-item">
+      <h4>브랜드 운영 시트</h4>
+      <div class="url">Google Sheets — [BELIER] 브랜드 운영</div>
+      <div class="desc" contenteditable="false"><strong>개별_브랜드이슈 탭</strong>: 협찬 성과·마케팅 비용 정산 입력. 마케팅 핵심 시트.</div>
+    </div>
+    <div class="tool-item">
+      <h4>기획시트 · 라인시트</h4>
+      <div class="url">Google Sheets — [BELIER] 26SS 브랜드 기획 / 26FW 브랜드 기획</div>
+      <div class="desc" contenteditable="false">시즌별 상품 마스터. 샘플 위치 · 재고 · 발매일 · 이미지 확인. 협찬 샘플 찾을 때 필수.</div>
+    </div>
+    <div class="tool-item">
+      <h4>마케팅 리스트</h4>
+      <div class="url">Google Sheets (체크리스트 탭)</div>
+      <div class="desc" contenteditable="false">신상품 발매 시 플랫폼 등록 체크리스트. 29CM/무신사 아이템 태그·이미지 업로드 확인.</div>
+    </div>
+    <div class="tool-item">
+      <h4>이지어드민</h4>
+      <div class="url">이지어드민 로그인 (계정 확인)</div>
+      <div class="desc" contenteditable="false">협찬/시딩 수동 발주 진행. 급건은 퀵배차로.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px;">📧 협찬 요청 수신 채널</h3>
+  <div class="tool-grid">
+    <div class="tool-item">
+      <h4>다음메일 (메인)</h4>
+      <div class="url">contact@belier-atelier.com (실제 주소 확인 필요)</div>
+      <div class="desc" contenteditable="false">공식 협찬 요청 수신. 매일 아침 체크.</div>
+    </div>
+    <div class="tool-item">
+      <h4>MD1 메일</h4>
+      <div class="url">(실제 주소 확인 필요)</div>
+      <div class="desc" contenteditable="false">MD 담당자 직통 메일.</div>
+    </div>
+    <div class="tool-item">
+      <h4>어치브먼트 (Achievement)</h4>
+      <div class="url">인플루언서/연예인 협찬 플랫폼</div>
+      <div class="desc" contenteditable="false">연예인 반납 기반 협찬 요청 수신. 협찬서 작성 필요.</div>
+    </div>
+    <div class="tool-item">
+      <h4>인스타 DM · 채널톡</h4>
+      <div class="url">(위 채널에서)</div>
+      <div class="desc" contenteditable="false">인플루언서 직접 문의. 대부분 스타일리스트 경유.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 월간 정산 루틴 ===== -->
+<section class="panel" id="tab-budget">
+  <h2>월간 정산 루틴</h2>
+  <p class="subtitle">매월 마지막 주 · 대표 보고용 마케팅 비용 정산. ③ 프로세스 시트의 실전 가이드.</p>
+
+  <div class="card">
+    <h3>📅 정산 일정 체크리스트</h3>
+    <table>
+      <thead><tr><th>일자</th><th>업무</th><th>담당 툴/시트</th></tr></thead>
+      <tbody>
+        <tr><td>월말 D-5</td><td>브랜드 운영시트 개별_브랜드이슈 탭 중간 점검</td><td>Google Sheets</td></tr>
+        <tr><td>월말 D-3</td><td>데이터라이즈 사용 내역서 메일 확인</td><td>이메일</td></tr>
+        <tr><td>월말 D-3</td><td>채널톡 초과 사용량 확인</td><td>채널톡 어드민</td></tr>
+        <tr><td>월말 D-2</td><td>카톡 DM 건별 발송 내역 · ROAS/CTR 작성</td><td>카카오비즈</td></tr>
+        <tr><td>월말 D-2</td><td>룩북 제작 견적서 · 시딩 원가 취합</td><td>견적서 · 이지어드민</td></tr>
+        <tr><td>월말 D-1</td><td>정산표 초안 작성 · 다음 달 예산 제안</td><td>Google Sheets</td></tr>
+        <tr><td>월초 D+1</td><td>대표 검토·승인</td><td>대표 미팅</td></tr>
+        <tr><td>월초 D+3</td><td>승인 결과 → 주간 마케팅 기획 반영</td><td>주간 기획 회의</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>💸 비용 카테고리 & 계산 방식</h3>
+    <table>
+      <thead><tr><th>카테고리</th><th>원천 데이터</th><th>계산 방식</th><th>시트 반영</th></tr></thead>
+      <tbody>
+        <tr><td>채널톡 초과</td><td>채널톡 어드민 사용량</td><td>기본 플랜 초과분 × 마케팅 비율</td><td>개별_브랜드이슈</td></tr>
+        <tr><td>데이터라이즈</td><td>월별 사용 내역서 (이메일)</td><td>온사이트 + 메시지 합산</td><td>개별_브랜드이슈</td></tr>
+        <tr><td>카톡 DM</td><td>카카오비즈 발송 내역</td><td>건당 단가 × 발송 수</td><td>개별_브랜드이슈</td></tr>
+        <tr><td>협찬 원가</td><td>이지어드민 수동발주</td><td>발송 아이템 원가 합산</td><td>개별_브랜드이슈</td></tr>
+        <tr><td>시딩 원가</td><td>테이크아웃 발송 내역</td><td>아이템 원가 합산</td><td>개별_브랜드이슈</td></tr>
+        <tr><td>룩북/촬영비</td><td>견적서</td><td>시즌당 1회 (선결제)</td><td>개별_브랜드이슈</td></tr>
+        <tr><td>오프라인 행사</td><td>행사 결과 보고서</td><td>케이터링+장소+음료+기타</td><td>개별_브랜드이슈</td></tr>
+        <tr><td>메타/구글 광고</td><td>광고 플랫폼 대시보드</td><td>집행 금액 직접 합산</td><td>개별_브랜드이슈</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>📈 ROAS/CTR 기록 포맷 (권장)</h3>
+    <div class="notice green">
+      <strong>ROAS</strong> = 광고를 통한 매출 ÷ 광고비 · <strong>CTR</strong> = 클릭수 ÷ 노출수 · <strong>CAC</strong> = 신규 고객 획득 비용
+    </div>
+    <table>
+      <thead><tr><th>채널</th><th>캠페인</th><th>비용</th><th>노출</th><th>클릭</th><th>CTR</th><th>매출</th><th>ROAS</th></tr></thead>
+      <tbody>
+        <tr><td>데이터라이즈</td><td>(예시) VIP 생일 메시지</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>카톡 DM</td><td>(예시) 재입고 알림</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>29CM 기획전</td><td>(예시)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>무신사 체험단</td><td>(예시)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+      </tbody>
+    </table>
+    <p class="ref-link">※ 이 테이블은 예시. 실제 매달 Google Sheets에서 채워 복붙.</p>
+  </div>
+</section>
+
+<!-- ===== 용어집 ===== -->
+<section class="panel" id="tab-glossary">
+  <h2>용어집</h2>
+  <p class="subtitle">신규 담당자 첫 1주일 필수. PPT 곳곳에 나오는 내부 용어 정리. 이해 안 되는 단어는 편집 모드에서 추가.</p>
+
+  <h3>🛠 툴·플랫폼</h3>
+  <div class="glossary-item"><div class="glossary-term">데이터라이즈</div><div contenteditable="false">벨리에가 쓰는 CRM·온사이트 마케팅 툴. <strong>온사이트 캠페인</strong>(자사몰에 팝업·배너 노출) + <strong>메시지 캠페인</strong>(이메일·문자·앱 푸시)을 함께 운영. 월별 사용 내역서가 메일로 와서 비용 정산의 주요 항목.</div></div>
+  <div class="glossary-item"><div class="glossary-term">어치브먼트</div><div contenteditable="false">연예인·셀럽 협찬 요청 플랫폼. 여기로 오는 협찬은 반납 기반이라 협찬서 작성 필수. 매일 아침 메일과 함께 확인.</div></div>
+  <div class="glossary-item"><div class="glossary-term">이지어드민</div><div contenteditable="false">내부 발주 관리 시스템. 협찬·시딩 발송 시 <strong>수동발주</strong>로 처리. 급건은 퀵배차 연계.</div></div>
+  <div class="glossary-item"><div class="glossary-term">채널톡</div><div contenteditable="false">고객 상담 메신저. CS팀이 주로 쓰지만 마케팅은 초과 사용량 중 마케팅 발송분(문자·소셜미디어)을 월별 비용 정산에 반영.</div></div>
+  <div class="glossary-item"><div class="glossary-term">크리마</div><div contenteditable="false">리뷰 수집·적립금 지급 툴. 리뷰 발췌해 마케팅 소재로 사용 가능.</div></div>
+
+  <h3 style="margin-top:20px;">📋 시트·문서</h3>
+  <div class="glossary-item"><div class="glossary-term">기획시트 · 라인시트</div><div contenteditable="false">시즌별 상품 마스터 Google Sheets. 샘플 위치·재고·이미지·발매일 확인. 협찬 샘플 찾을 때 가장 먼저 보는 시트.</div></div>
+  <div class="glossary-item"><div class="glossary-term">브랜드 운영 시트</div><div contenteditable="false">벨리에 운영 전반 Google Sheets. <strong>개별_브랜드이슈 탭</strong>이 마케팅 비용 정산·협찬 성과 입력의 핵심.</div></div>
+  <div class="glossary-item"><div class="glossary-term">마케팅 리스트</div><div contenteditable="false">신상품 발매 시 플랫폼별 등록 체크리스트. 특히 '체크리스트 탭' 확인.</div></div>
+  <div class="glossary-item"><div class="glossary-term">협찬서</div><div contenteditable="false">벨리에 제품 협찬 시 동봉하는 양식. <strong>연예인 반납 기반 협찬 시에만</strong> 작성 (일반 무상 협찬은 불필요).</div></div>
+
+  <h3 style="margin-top:20px;">👕 벨리에 내부 용어</h3>
+  <div class="glossary-item"><div class="glossary-term">크루 (Crew)</div><div contenteditable="false">벨리에 회원. 회원 등급은 <strong>크루컬러</strong>로 표현 — White → Blue → Navy → Purple → Black.</div></div>
+  <div class="glossary-item"><div class="glossary-term">크루컬러 / 컬러쿠폰</div><div contenteditable="false">등급별 할인 쿠폰. 매월 1일 자동 갱신. Black 최초 달성 시 케어키트 증정.</div></div>
+  <div class="glossary-item"><div class="glossary-term">크루데이</div><div contenteditable="false">특정 컬러 등급 대상 할인 이벤트. 데이터라이즈 캠페인과 연계.</div></div>
+  <div class="glossary-item"><div class="glossary-term">테이크아웃 브랜드</div><div contenteditable="false">벨리에 여성 카테고리 시딩 파트너사. 주간 단톡방 소통 + 신상 발매 시 셀렉 리스트 공유.</div></div>
+  <div class="glossary-item"><div class="glossary-term">플래그십스토어</div><div contenteditable="false">벨리에 주력 오프라인 매장 (서울숲·롯데월드몰·롯데본점·명동본점·더현대서울). 시즌 전환 시 매장 사진 변경 필수.</div></div>
+
+  <h3 style="margin-top:20px;">📊 마케팅 지표</h3>
+  <div class="glossary-item"><div class="glossary-term">ROAS</div><div contenteditable="false">Return On Ad Spend. 광고비 1원당 매출 얼마. (ROAS 300% = 광고비 1만원 쓰면 매출 3만원)</div></div>
+  <div class="glossary-item"><div class="glossary-term">CTR</div><div contenteditable="false">Click-Through Rate. 노출 대비 클릭 비율. (CTR 2% = 노출 100번 중 2번 클릭)</div></div>
+  <div class="glossary-item"><div class="glossary-term">CAC</div><div contenteditable="false">Customer Acquisition Cost. 신규 고객 1명 획득에 들어간 마케팅 비용.</div></div>
+  <div class="glossary-item"><div class="glossary-term">시딩 (Seeding)</div><div contenteditable="false">인플루언서/셀럽에게 제품 무상 제공 → 자연스러운 착용·노출 유도. 반납 없음, 협찬서 불필요.</div></div>
+  <div class="glossary-item"><div class="glossary-term">리그램</div><div contenteditable="false">인스타 스토리에서 다른 계정 게시물 재공유. 행사 중 인플루언서 스토리 리그램이 핵심 바이럴.</div></div>
+
+  <h3 style="margin-top:20px;">👥 사람·역할</h3>
+  <div class="glossary-item"><div class="glossary-term">MD</div><div contenteditable="false">Merchandiser / 마케팅 담당자. 이 매뉴얼의 주 사용자. PPT에서 "MD 인수인계서"는 박준홍님이 작성.</div></div>
+  <div class="glossary-item"><div class="glossary-term">정다은님</div><div contenteditable="false">피드 기획 협업 (외부/내부 확인 필요). 주 2~3회 피드 기획 미팅.</div></div>
+  <div class="glossary-item"><div class="glossary-term">승환님</div><div contenteditable="false">총괄 · 생산팀. 교환/반품 승인 · 협찬 예산 컨펌.</div></div>
+  <div class="glossary-item"><div class="glossary-term">찬웅님</div><div contenteditable="false">생산팀 (1년차, 정형 아이템). AS 판단.</div></div>
+  <div class="glossary-item"><div class="glossary-term">경빈님</div><div contenteditable="false">경영지원. 무통장 환불 · 커피쿠폰 발송 등 처리.</div></div>
+</section>
+
+<!-- ===== 템플릿 & 양식 ===== -->
+<section class="panel" id="tab-forms">
+  <h2>템플릿 & 양식</h2>
+  <p class="subtitle">반복 업무 템플릿 모음. 복사 버튼으로 바로 사용.</p>
+
+  <div class="card">
+    <h3>📧 협찬 요청 답변 (기본)</h3>
+    <div style="background:#f5f5f7;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:13px;" contenteditable="false" id="tpl-sponsor-reply">안녕하세요, 벨리에 마케팅팀입니다.
+협찬 요청 주셔서 감사드립니다.
+
+보내주신 채널 정보와 요청 제품 확인 후,
+내부 검토 거쳐 [N]영업일 내 회신 드리겠습니다.
+
+- 희망 제품: (사이즈·컬러 포함)
+- 촬영 예정일:
+- 게시 예정일:
+- 반납 여부: 반납 / 무상
+
+추가로 필요한 정보 있으시면 말씀 부탁드립니다.
+감사합니다.</div>
+    <button class="btn btn-primary" style="margin-top:8px;" onclick="copyText('tpl-sponsor-reply')">복사</button>
+  </div>
+
+  <div class="card">
+    <h3>📝 주간 마케팅 리포트 포맷 (월요일 발표용)</h3>
+    <div style="background:#f5f5f7;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:13px;" contenteditable="false" id="tpl-weekly">[YYYY-MM-DD] 주간 마케팅 리포트
+
+1. 지난주 성과 요약
+   - 인스타: 도달 ___, 저장 ___, 신규 팔로워 ___
+   - 29CM/무신사: 매출 ___, 기획전 진행 ___건
+   - 데이터라이즈: 캠페인 ___개, 전환율 ___%
+   - 카톡 DM: 발송 ___건, ROAS ___%
+
+2. 이번 주 계획
+   - 월: ___
+   - 화: 피드 기획 (정다은님)
+   - 수: 플랫폼 업로드
+   - 목: 피드 기획
+   - 금: 주간 리포트 · 성과 분석
+
+3. 이슈/리스크
+   - ___
+
+4. 대표 승인 필요 건
+   - ___</div>
+    <button class="btn btn-primary" style="margin-top:8px;" onclick="copyText('tpl-weekly')">복사</button>
+  </div>
+
+  <div class="card">
+    <h3>📊 월간 정산 요약 (대표 보고용 1장)</h3>
+    <div style="background:#f5f5f7;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:13px;" contenteditable="false" id="tpl-monthly">[YYYY-MM] 마케팅 비용 정산 요약
+
+총 집행: ₩ ___  (전월 대비 ___%)
+
+└ 데이터라이즈: ₩ ___
+└ 채널톡(마케팅분): ₩ ___
+└ 카톡 DM: ₩ ___
+└ 협찬·시딩 원가: ₩ ___
+└ 룩북·촬영: ₩ ___
+└ 오프라인 행사: ₩ ___
+└ 기타: ₩ ___
+
+ROAS 상위 3개 캠페인:
+1. ___ (ROAS ___%)
+2. ___
+3. ___
+
+다음 달 예산 제안: ₩ ___
+- 증액 사유:
+- 감액 항목:</div>
+    <button class="btn btn-primary" style="margin-top:8px;" onclick="copyText('tpl-monthly')">복사</button>
+  </div>
+
+  <div class="card">
+    <h3>🎁 협찬 발송 체크리스트</h3>
+    <ul style="list-style:none;" contenteditable="false">
+      <li>☐ 대표 컨펌 완료</li>
+      <li>☐ 기획시트·라인시트에서 샘플 위치 확인</li>
+      <li>☐ 재고 확인 → 이지어드민 수동발주 등록</li>
+      <li>☐ 협찬서 작성 (반납 건만)</li>
+      <li>☐ 동봉물: 협찬서 + 감사 카드 + (해당 시) 부자재</li>
+      <li>☐ 수령자 주소·연락처 재확인</li>
+      <li>☐ 스타일리스트 컨택 → 수령 시점 안내</li>
+      <li>☐ 게시 예정일 메모 → 브랜드 운영시트 기록</li>
+      <li>☐ 게시 후 48시간 내 성과 측정 (도달·저장·유입)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🎬 오프라인 행사 준비 체크리스트</h3>
+    <ul style="list-style:none;" contenteditable="false">
+      <li>☐ D-30: 대표 예산 승인 · 일자·장소·규모 확정</li>
+      <li>☐ D-21: 인플루언서 1차 리스트업 (기존 + 신규 디깅)</li>
+      <li>☐ D-14: 인플루언서 컨택 · 참석 확정 · 프라이빗 촬영 일정 조율</li>
+      <li>☐ D-10: 샘플 준비 · 판매 가능 아이템 정리 · 베네핏 컨펌</li>
+      <li>☐ D-7: 케이터링·음료 발주 · 오프라인 스태프 휴가 조율</li>
+      <li>☐ D-3: 행사 구역·행거 리스트 최종 · 재고 준비·동선 확인</li>
+      <li>☐ D-1: 케이터링 업체 오전 일찍 진행 확정 · 최종 리허설</li>
+      <li>☐ D-Day: 현장 사진·영상 · 인플루언서 스토리 리그램 · 판매 집계</li>
+      <li>☐ D+1: 결과 보고 작성 · 판매 실적 → 마케팅 비용 정산 반영</li>
+      <li>☐ D+3: 콘텐츠 2차 활용 컨펌 · 인플루언서 후기 정리</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>📎 외부 양식·링크 모음</h3>
+    <ul style="list-style:none;" contenteditable="false">
+      <li>• 벨리에 제품 협찬 시트: (Google Drive 링크 — 편집 모드에서 추가)</li>
+      <li>• 29CM 기획전 신청 가이드: <a href="https://partners.29cm.co.kr/" target="_blank">29CM 파트너센터</a></li>
+      <li>• 무신사 기획전 신청: <a href="https://partners.musinsa.com/" target="_blank">무신사 파트너센터</a></li>
+      <li>• CS 매뉴얼 (참조): <a href="https://belier-calendar.vercel.app/" target="_blank">belier-calendar.vercel.app</a></li>
+      <li>• 생산 매뉴얼 (참조): <a href="file:///Users/bong/Downloads/벨리에_생산관리_매뉴얼.html" target="_blank">벨리에_생산관리_매뉴얼.html</a></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('tab-' + target).classList.add('active');
+      window.scrollTo(0, 0);
+    });
+  });
+
+  // Edit mode toggle
+  let editMode = false;
+  function toggleEdit() {
+    editMode = !editMode;
+    const btn = document.getElementById('btn-edit');
+    document.querySelectorAll('[contenteditable]').forEach(el => {
+      el.setAttribute('contenteditable', editMode ? 'true' : 'false');
+    });
+    // Make all text containers editable in edit mode
+    if (editMode) {
+      document.querySelectorAll('.process-col li, .timeline-task li, .timeline-task h4, .category-block li, .glossary-item div, .partner-card h4, .partner-card .notes, .tool-item .desc').forEach(el => {
+        el.setAttribute('contenteditable', 'true');
+      });
+      btn.textContent = '편집 중 · 클릭해서 종료';
+      btn.classList.add('active');
+    } else {
+      document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+        el.setAttribute('contenteditable', 'false');
+      });
+      btn.textContent = '편집 모드';
+      btn.classList.remove('active');
+    }
+  }
+
+  // Save to localStorage
+  function saveAll() {
+    const snapshot = document.body.innerHTML;
+    try {
+      localStorage.setItem('belier-manual-v1', snapshot);
+      localStorage.setItem('belier-manual-updated', new Date().toISOString());
+      updateTimestamp();
+      alert('저장 완료');
+    } catch (e) {
+      alert('저장 실패: ' + e.message + '\n(콘텐츠가 너무 크면 HTML 내보내기 사용)');
+    }
+  }
+
+  function updateTimestamp() {
+    const ts = localStorage.getItem('belier-manual-updated');
+    if (ts) {
+      const d = new Date(ts);
+      document.getElementById('updated').textContent = '최종 수정: ' + d.toLocaleString('ko-KR');
+    }
+  }
+
+  // Load from localStorage
+  function loadAll() {
+    const saved = localStorage.getItem('belier-manual-v1');
+    if (saved) {
+      document.body.innerHTML = saved;
+      // Re-bind events after innerHTML replacement
+      attachEvents();
+      updateTimestamp();
+    }
+  }
+
+  function attachEvents() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + target).classList.add('active');
+        window.scrollTo(0, 0);
+      });
+    });
+  }
+
+  // Reset
+  function resetAll() {
+    if (confirm('저장된 수정사항을 모두 초기화하시겠습니까? (원본 상태로 되돌림)')) {
+      localStorage.removeItem('belier-manual-v1');
+      localStorage.removeItem('belier-manual-updated');
+      location.reload();
+    }
+  }
+
+  // Export HTML
+  function exportHTML() {
+    const html = '<!DOCTYPE html>\n<html lang="ko">\n' + document.documentElement.innerHTML + '\n</html>';
+    const blob = new Blob([html], {type: 'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'belier-marketing-manual-' + new Date().toISOString().slice(0,10) + '.html';
+    a.click();
+  }
+
+  // Copy template
+  function copyText(id) {
+    const el = document.getElementById(id);
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btns = document.querySelectorAll('button');
+      btns.forEach(b => {
+        if (b.getAttribute('onclick') === `copyText('${id}')`) {
+          const orig = b.textContent;
+          b.textContent = '✓ 복사됨';
+          setTimeout(() => b.textContent = orig, 1500);
+        }
+      });
+    });
+  }
+
+  // Open external manuals
+  function openManual(dept) {
+    const paths = {
+      production: 'file:///Users/bong/Downloads/벨리에_생산관리_매뉴얼.html'
+    };
+    if (paths[dept]) window.open(paths[dept], '_blank');
+    else alert('준비 중입니다');
+  }
+  function openCSManual() {
+    window.open('https://belier-calendar.vercel.app/', '_blank');
+  }
+
+  // Boot
+  loadAll();
+  updateTimestamp();
+</script>
+
+</body>
+</html>
