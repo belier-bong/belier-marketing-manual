@@ -384,7 +384,7 @@
   <div class="tab active" data-tab="home">🏠 회사 전체 flow</div>
   <div class="tab" data-tab="category">업무 카테고리 맵</div>
   <div class="tab" data-tab="daily">일일 루틴</div>
-  <div class="tab" data-tab="process">프로세스 시트 (8)</div>
+  <div class="tab" data-tab="process">프로세스 시트 (10)</div>
   <div class="tab" data-tab="partners">외부 협업 리스트</div>
   <div class="tab" data-tab="tools">도구 접속 가이드</div>
   <div class="tab" data-tab="budget">월간 정산 루틴</div>
@@ -706,7 +706,7 @@
 
 <!-- ===== 프로세스 시트 8개 ===== -->
 <section class="panel" id="tab-process">
-  <h2>프로세스 시트 (8개)</h2>
+  <h2>프로세스 시트 (10개)</h2>
   <p class="subtitle">각 업무를 <strong>Trigger → Input → Activities → Output → Handoff</strong> 5단계로 정리. 예시가 적힌 칸은 편집 모드에서 실제 내용으로 수정.</p>
 
   <!-- ① 프레젠테이션 행사 -->
@@ -860,10 +860,18 @@
         <ul>
           <li>다음메일·MD1 메일·채널톡·어치브먼트 모두 확인</li>
           <li>기획시트·<a href="https://docs.google.com/spreadsheets/d/1XdTVwejUwKlkYqJIX-TH8A7vOAOVm7A5XDmD71thrOs/edit?gid=2079343529#gid=2079343529" target="_blank">라인시트</a>에서 샘플 위치 파악</li>
+          <li>협찬 품목 관리 — <strong>재고·시즌성 체크</strong> (시즌 오픈 초반 협찬 요청 폭주 대비)</li>
+          <li>카페24에서 런닝 아이템 이미지 확인 → 협찬 가능 여부 판단</li>
+          <li>샘플 재고 현황 시트 조회 → 샘플 위치 파악</li>
+          <li>출고 리스트 작성 — 스프레드시트 ×2장 인쇄 (1장 발송용 / 1장 보관용)</li>
           <li>제품 발송 가능 여부 컨펌</li>
           <li>스타일리스트에게 공유</li>
           <li>협찬서 작성 (반납건만)</li>
-          <li>동봉 · 배송</li>
+          <li>샘플 위치 최신화</li>
+          <li>수동발주 엑셀 작성 — <strong>날짜 사이 띄어쓰기 금지</strong>, 맨 끝 `1~5` 차수 체크</li>
+          <li>이지어드민 → [주문관리] → [발주] → [수동발주 파일 업로드]</li>
+          <li>이지어드민 [재고 관리] 탭 → 우측 상단 제품명 입력 → 검색</li>
+          <li>동봉 · 배송 (급건은 퀵배차)</li>
         </ul>
       </div>
       <div class="process-col output">
@@ -871,6 +879,8 @@
         <ul>
           <li>협찬 발송 완료 내역</li>
           <li>협찬서 사본 (반납건)</li>
+          <li>출고 리스트 인쇄본 (발송용 / 보관용 ×2)</li>
+          <li>차수별 수동발주 엑셀 (예: <code>2026-04-20_1</code>, <code>2026-04-20_2</code>)</li>
           <li>크리에이터 게시 예정일</li>
           <li>게시 후 성과 (도달·저장·유입)<br>→ <a href="https://docs.google.com/spreadsheets/d/1oHU53-7sbh4vTIBre5dg3AjyMMK4hGddrDEsC2TkSdg/edit?gid=557064866#gid=557064866" target="_blank">브랜드 운영시트_브랜드이슈</a>에 작성</li>
         </ul>
@@ -882,6 +892,60 @@
           <li>급건 → 퀵배차</li>
           <li>협찬 비용 → 마케팅 비용 정산 (원가 반영)</li>
           <li>성과 좋은 인플루언서 → 재협찬 리스트</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ②-2 스타 마케팅 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">②-2</span>스타 마케팅 (대행업체)</div>
+      <span class="freq-badge">비정기</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>Achievement 등 스타 마케팅 대행업체로부터 시딩 요청 수신</li>
+          <li>신상품 발매 후 스타 노출 필요 시점</li>
+          <li>시즌 오픈 직전 인지도 부스팅 필요</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>대행업체 시딩 요청 (스타명·일정·요구 사양)</li>
+          <li>벨리에 시딩 기입 시트 (양식)</li>
+          <li>라인시트 (시즌 컬렉션·재고)</li>
+          <li>대표 컨펌 (예외적 케이스만)</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>gmail · 개인 연락망으로 시딩 내역 수신</li>
+          <li>Achievement 등 → 장원영 등 스타 마케팅 — <strong>앵간하면 상품 증정</strong>으로 진행</li>
+          <li>타이트한 일정도 최대한 맞추기 (스타 일정은 변경 어려움)</li>
+          <li>벨리에 시딩 기입 시트에 작성 (필수)</li>
+          <li><strong>인플루언서 섭외·소통은 채널톡으로 진행</strong></li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>시딩 발송 완료 내역 (벨리에 시딩 기입 시트)</li>
+          <li>스타 노출 후 콘텐츠 (있을 경우)</li>
+          <li>게시 후 성과 (도달·저장·유입)</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>발송 → 이지어드민 수동발주</li>
+          <li>시딩 비용 → 마케팅 비용 정산 (원가 반영)</li>
+          <li>스타 노출 게시물 → SNS 리포스팅</li>
+          <li>성과 데이터 → 브랜드 운영시트</li>
         </ul>
       </div>
     </div>
@@ -921,6 +985,11 @@
           <li>채널톡 초과 사용량 중 마케팅분 계산</li>
           <li>데이터라이즈 월별 내역 확인</li>
           <li>카톡 DM 건별 확인 → ROAS/CTR 작성</li>
+          <li><strong>온라인 정산</strong> — 카페24 → [주문] → [전체주문 조회] → 결제일 1일~말일 → 제품명 검색 → 엑셀 다운로드 → 협업정산 체크 → 각 정산시트 추가</li>
+          <li><strong>오프라인 정산</strong> — 카페24 [앱] → [그로싱] 아이콘 → 일자 입력(매월 1일~말일) → 엑셀 다운</li>
+          <li>정산 요청 문자 발송 (승환님, 정산 대상자) → 세금계산서 처리</li>
+          <li>※ <strong>마이 라이브러리 제외</strong> (판매처가 그쪽에 있음)</li>
+          <li>매월 <strong>10일 이내</strong> 정산표 작성·전달 (매월 1일 → 익월 정산)</li>
           <li>추가 저널·마케팅 예산 작성</li>
         </ul>
       </div>
@@ -929,6 +998,9 @@
         <ul>
           <li>월간 마케팅 비용 정산표</li>
           <li>채널별 ROAS/CTR 분석</li>
+          <li>카페24 온라인/오프라인 엑셀 원본 (월별 보관)</li>
+          <li>협업정산 시트 (대상자별 분리)</li>
+          <li>세금계산서 발행 내역</li>
           <li>다음 달 예산 제안서</li>
           <li>비용 대비 성과 요약 (1장)</li>
         </ul>
@@ -937,6 +1009,8 @@
         <h4>Handoff · 인계</h4>
         <ul>
           <li>정산표 → 대표 검토·승인</li>
+          <li>정산 요청 문자 → 승환님 + 대상자</li>
+          <li>세금계산서 → 회계 담당자</li>
           <li>ROAS 분석 → 주간 마케팅 기획 반영</li>
         </ul>
       </div>
@@ -1115,6 +1189,93 @@
     </div>
   </div>
 
+  <!-- ⑥-2 무신사 발매·배너·광고 상세 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">⑥-2</span>무신사 발매·배너·광고 상세</div>
+      <span class="freq-badge">시즌 + 비정기</span>
+    </div>
+    <p style="margin:8px 0 16px; color:#666; font-size:14px;">
+      ⚠️ <strong>발매 1주일 전 완료 필수</strong> — 무신사 푸시 알림 및 설정 관련 혜택을 받기 위함.
+    </p>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>시즌 신상품 발매 1주 전 (필수)</li>
+          <li>추가 발매판 신청 필요 시점</li>
+          <li>플래그쉽 스토어 검색·노출 최적화 시점</li>
+          <li>비즈머니 잔액 확인 후 광고 집행 결정</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>무신사 대시보드 계정 (담당자 로그인)</li>
+          <li>무신사 파트너스 (광고용, 별도 로그인)</li>
+          <li>시즌 컬렉션 라인시트</li>
+          <li>직전 시즌 발매판 시트 (구글 드라이브)</li>
+          <li>배너용 이미지 소스 (시즌 폴더)</li>
+          <li>비즈머니 잔액</li>
+          <li>대표 컨펌 (이벤트 명·할인율)</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li><strong>📋 발매판 사전 준비:</strong> 무신사 대시보드 → [상품 재고] → [상품 관리] → 상단 [검색] 클릭 → 구글 드라이브 → 시즌 폴더 생성 → <code>발매판</code>/<code>배너</code> 폴더 생성 → 직전 시트 복사 → 최신화 → 칸별 내용 기입</li>
+          <li><strong>📋 발매판 신청:</strong> 무신사 대시보드 → [성장 솔루션] / [광고 구좌 관리] → [신청서 작성] → 이미지대로 세팅</li>
+          <li><strong>🖼 배너:</strong> 무신사 광고 구좌 → 배너 신청 → 이미지 업로드 + 노출 일자 (메인 노출, <em>하루 지나면 사라짐 — 중요도 낮음</em>)</li>
+          <li><strong>🏬 플래그쉽 스토어:</strong> 검색 태그 우선 수정 → 구글 드라이브 폴더 이미지 셀렉·삽입 → 완료 후 <strong>무신사 진호님께 연락</strong></li>
+          <li><strong>📢 상품 광고 (파트너스):</strong> 무신사 파트너스 접속 → [상품등록] → [발매판], [배너] → [상품 광고] → <strong>비즈머니 잔액 체크</strong> → 시즌 아이템 선정 → 집행</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>신청 완료된 발매판 (D-Day 18:00 노출)</li>
+          <li>구글 드라이브 시즌 폴더 (발매판·배너 자료)</li>
+          <li>배너 노출 (메인 1일)</li>
+          <li>검색 태그 최신화된 플래그쉽 스토어</li>
+          <li>집행 광고 내역 (광고명·기간·예산·아이템)</li>
+          <li>비즈머니 잔액 갱신 내역</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>플래그쉽 검수·노출 활성화 → <strong>무신사 진호님</strong></li>
+          <li>발매판 종료 후 ROAS·노출수 → 마케팅 비용 정산</li>
+          <li>비즈머니 소진 시 → 대표 보고 후 재충전</li>
+          <li>배너 성과 → 다음 시즌 집행 판단 자료</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:16px; padding:12px 14px; background:#fff8e6; border-left:3px solid #d4a012; border-radius:4px; font-size:13px;">
+      <strong>⚠️ 발매판 주의사항 (반드시 체크)</strong>
+      <ul style="margin:6px 0 0 18px; line-height:1.7;">
+        <li><strong>이벤트 명</strong> — 지난 기록 확인 후 언어 통일 (시즌별 일관성)</li>
+        <li><strong>서브 타이틀</strong> — <code>5% 할인</code> 고정</li>
+        <li><strong>노출 시작일</strong> — 반드시 <strong>오후 6시 (18:00)</strong>로 체크</li>
+        <li><strong>종료일</strong> — 약 <strong>2주</strong>로 설정</li>
+      </ul>
+    </div>
+    <div style="margin-top:12px; padding:12px 14px; background:#f5f7fa; border-left:3px solid #4a6fa5; border-radius:4px; font-size:13px;">
+      <strong>📅 무신사 5종 통합 체크리스트 — 발매 1주 전 ~ D+14</strong>
+      <table style="width:100%; margin-top:6px; font-size:12px;">
+        <thead><tr><th style="text-align:left; padding:4px 8px;">시점</th><th style="text-align:left; padding:4px 8px;">작업</th></tr></thead>
+        <tbody>
+          <tr><td style="padding:3px 8px;">D-7 ~ D-5</td><td style="padding:3px 8px;">발매판 신청 (대시보드 → 광고 구좌 → 신청서)</td></tr>
+          <tr><td style="padding:3px 8px;">D-7 ~ D-5</td><td style="padding:3px 8px;">배너 신청 (선택)</td></tr>
+          <tr><td style="padding:3px 8px;">D-7</td><td style="padding:3px 8px;">플래그쉽 검색 태그·이미지 갱신 → 진호님 연락</td></tr>
+          <tr><td style="padding:3px 8px;">D-3</td><td style="padding:3px 8px;">비즈머니 체크 → 상품 광고 집행 (파트너스)</td></tr>
+          <tr><td style="padding:3px 8px;">D-Day 18:00</td><td style="padding:3px 8px;">발매판 노출 시작</td></tr>
+          <tr><td style="padding:3px 8px;">D+14</td><td style="padding:3px 8px;">발매판 종료 / 성과 데이터 → 정산</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- ⑦ 데이터라이즈 -->
   <div class="process-card">
     <div class="process-card-header">
@@ -1205,6 +1366,9 @@
           <li>정다은님과 피드 기획</li>
           <li>미팅 일정 공유</li>
           <li>전반적인 행사 기획</li>
+          <li><strong>콘텐츠 사이클: 티징 → 오픈 → 리오더</strong> (시즌별 3단계 운영)</li>
+          <li>고정 업무 — 정기적 체크 (스케줄링·고정 콘텐츠 기획)</li>
+          <li><strong>라벨링 주의하여 최신화</strong> (제품명·시즌·태그 일관성)</li>
         </ul>
       </div>
       <div class="process-col output">
@@ -1212,6 +1376,8 @@
         <ul>
           <li>주간 콘텐츠 캘린더 (요일별)</li>
           <li>업로드된 스토리·피드</li>
+          <li>시즌 콘텐츠 캘린더 (티징·오픈·리오더 일정)</li>
+          <li>라벨링 최신화 완료 라인시트</li>
           <li>성과 기록 (도달·저장·공유·방문)</li>
         </ul>
       </div>
@@ -1222,6 +1388,59 @@
           <li>성과 → 주간 리포트</li>
           <li>고성과 콘텐츠 → 광고 소재 전환 (메타·데이터라이즈)</li>
           <li>피드 기획 → 촬영팀 (다음 촬영 방향)</li>
+          <li>콘텐츠 → 정다은님 (피드 기획 협업)</li>
+          <li>라벨링 → 플랫폼 업로드 담당</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑨ 이벤트·쿠폰 -->
+  <div class="process-card">
+    <div class="process-card-header">
+      <div class="process-card-title"><span class="num">⑨</span>이벤트·쿠폰 (마일리지)</div>
+      <span class="freq-badge">비정기 + 시즌</span>
+    </div>
+    <div class="process-grid">
+      <div class="process-col trigger">
+        <h4>Trigger · 시작 조건</h4>
+        <ul>
+          <li>오프라인 행사·시즌 오픈·콜라보 발매</li>
+          <li>VIP·크루 대상 즉시 발급 쿠폰 필요</li>
+          <li>마일리지 환원 캠페인</li>
+        </ul>
+      </div>
+      <div class="process-col input">
+        <h4>Input · 투입물</h4>
+        <ul>
+          <li>채널톡 어드민 권한</li>
+          <li>발급 대상 리스트 (대상 인원·금액·수량)</li>
+          <li>폼텍 인쇄 양식</li>
+          <li>이벤트 컨펌 (대표·기획)</li>
+        </ul>
+      </div>
+      <div class="process-col activities">
+        <h4>Activities · 활동</h4>
+        <ul>
+          <li>채널톡 → [프로모션] 진입</li>
+          <li>발급 방식 → <strong>즉시 발급</strong>으로 변경</li>
+          <li>금액별 / 수량 입력</li>
+          <li>폼텍 인쇄 → 현장 또는 봉투 동봉</li>
+        </ul>
+      </div>
+      <div class="process-col output">
+        <h4>Output · 산출물</h4>
+        <ul>
+          <li>발급된 쿠폰 폼텍 인쇄물</li>
+          <li>채널톡 프로모션 내역 (집계)</li>
+          <li>행사 후 사용률 데이터</li>
+        </ul>
+      </div>
+      <div class="process-col handoff">
+        <h4>Handoff · 인계</h4>
+        <ul>
+          <li>사용 데이터 → 월간 마케팅 비용 정산</li>
+          <li>미사용분 → 다음 캠페인 회수 또는 폐기 결정</li>
         </ul>
       </div>
     </div>
@@ -1321,9 +1540,34 @@
       <div class="desc" contenteditable="false">기획전 신청 · 체험단 운영 · 상품 등록 · 룩북 업로드. 리뷰/Q&A는 CS팀 담당.</div>
     </div>
     <div class="tool-item">
-      <h4>무신사 파트너센터</h4>
+      <h4>무신사 파트너센터 (운영)</h4>
+      <div class="url">https://partner.musinsa.com/</div>
+      <div class="desc" contenteditable="false">대시보드 · 상품 재고·관리 · 발매판 · 배너 · 플래그쉽 · 광고 구좌 신청.</div>
+    </div>
+    <div class="tool-item">
+      <h4>무신사 파트너스 (광고 / 비즈머니)</h4>
       <div class="url">https://partners.musinsa.com/</div>
-      <div class="desc" contenteditable="false">기획전 · 체험단 · 상품 등록 · 스냅 사진 업로드.</div>
+      <div class="desc" contenteditable="false"><strong>운영 대시보드와 별도 로그인.</strong> 상품 광고 집행 전용. 비즈머니 잔액 체크 → 시즌 아이템 선정 → 집행.</div>
+    </div>
+    <div class="tool-item">
+      <h4>카페24 그로싱 앱 (오프라인)</h4>
+      <div class="url">카페24 → [앱] → [그로싱]</div>
+      <div class="desc" contenteditable="false">오프라인 정산용. 일자 입력(매월 1일~말일) → 엑셀 다운로드.</div>
+    </div>
+    <div class="tool-item">
+      <h4>폼텍 (쿠폰 인쇄)</h4>
+      <div class="url">폼텍 라벨 · 현장 또는 외부 인쇄소</div>
+      <div class="desc" contenteditable="false">마일리지 쿠폰 발급 시 폼텍 양식으로 인쇄 → 현장 또는 봉투 동봉.</div>
+    </div>
+    <div class="tool-item">
+      <h4>gmail · 개인 연락망</h4>
+      <div class="url">담당자 개인 gmail (인계 시 전달)</div>
+      <div class="desc" contenteditable="false">협찬·시딩 비공식 요청 라우트. 스타 마케팅 시딩 내역 수신 채널.</div>
+    </div>
+    <div class="tool-item">
+      <h4>벨리에 시딩 기입 시트</h4>
+      <div class="url">Google Sheets (스타 마케팅 시딩 기록용 — 링크 편집 모드에서 추가)</div>
+      <div class="desc" contenteditable="false">Achievement 등 대행업체 통한 스타 마케팅 시딩 발송 내역 기록 필수.</div>
     </div>
   </div>
 
@@ -1386,7 +1630,7 @@
     <div class="tool-item">
       <h4>이지어드민</h4>
       <div class="url">이지어드민 로그인 (계정 확인)</div>
-      <div class="desc" contenteditable="false">협찬/시딩 수동 발주 진행. 급건은 퀵배차로.</div>
+      <div class="desc" contenteditable="false">협찬/시딩 수동 발주 진행. 급건은 퀵배차로.<br><strong>경로:</strong> [주문관리] → [발주] → [수동발주 파일 업로드]<br><strong>재고 조회:</strong> 상단 [재고 관리] 탭 → 우측 상단 제품명 입력 → 검색.</div>
     </div>
   </div>
 
