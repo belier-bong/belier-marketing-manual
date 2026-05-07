@@ -362,6 +362,99 @@
 
   .ref-link { font-size: 11px; color: #86868b; margin-top: 8px; font-style: italic; }
   .ref-link a { color: #0071e3; text-decoration: none; }
+
+  /* === 인수인계 PDF 스크린샷 (figure + lightbox) === */
+  .screenshots-block {
+    margin-top: 16px;
+    padding: 14px;
+    background: #fafafa;
+    border: 1px solid #e5e5ea;
+    border-radius: 8px;
+  }
+  .screenshots-block h4 {
+    font-size: 12px;
+    color: #6b6b6b;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .screenshots-grid figure {
+    margin: 0;
+    border: 1px solid #d6d6d4;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    cursor: zoom-in;
+    transition: box-shadow 0.15s;
+  }
+  .screenshots-grid figure:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .screenshots-grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .screenshots-grid figcaption {
+    padding: 8px 10px;
+    font-size: 12px;
+    color: #4a4a4a;
+    border-top: 1px solid #efefef;
+    background: #fafafa;
+  }
+  /* Lightbox modal */
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: zoom-out;
+    padding: 24px;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    color: #fff;
+    font-size: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 8px 12px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 13px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 14px;
+    border-radius: 4px;
+    max-width: 80%;
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .screenshots-grid { grid-template-columns: 1fr; }
+  }
   .ref-link a:hover { text-decoration: underline; }
 </style>
 </head>
@@ -1015,6 +1108,25 @@
         </ul>
       </div>
     </div>
+    <div class="screenshots-block">
+      <h4>📸 화면 참고 (인수인계서 발췌)</h4>
+      <div class="screenshots-grid">
+        <figure data-full="images/cafe24-online-search.png" data-caption="카페24 → [주문] → [전체주문 조회] · 결제일·제품명·결제상태·주문상태(구매확정 체크)">
+          <picture>
+            <source srcset="images/cafe24-online-search.webp" type="image/webp">
+            <img src="images/cafe24-online-search.png" alt="카페24 전체주문 조회 검색옵션 화면" loading="lazy">
+          </picture>
+          <figcaption><strong>온라인 정산</strong> · 카페24 검색옵션 (구매확정 체크)</figcaption>
+        </figure>
+        <figure data-full="images/cafe24-grossing-search.png" data-caption="카페24 → [앱] → [그로싱] · 결제일 1일~말일 입력 → 조회">
+          <picture>
+            <source srcset="images/cafe24-grossing-search.webp" type="image/webp">
+            <img src="images/cafe24-grossing-search.png" alt="카페24 그로싱 앱 검색옵션 화면" loading="lazy">
+          </picture>
+          <figcaption><strong>오프라인 정산</strong> · 그로싱 앱 검색옵션</figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 
   <!-- ④ 테이크아웃 브랜드 -->
@@ -1273,6 +1385,25 @@
           <tr><td style="padding:3px 8px;">D+14</td><td style="padding:3px 8px;">발매판 종료 / 성과 데이터 → 정산</td></tr>
         </tbody>
       </table>
+    </div>
+    <div class="screenshots-block">
+      <h4>📸 화면 참고 — 무신사 이벤트 신청서 (인수인계서 발췌)</h4>
+      <div class="screenshots-grid">
+        <figure data-full="images/musinsa-event-form-1.png" data-caption="무신사 이벤트 신청서 작성 → 이벤트명 입력 (예: 벨리에 26 SUMMER 3차 신상 발매) + 브랜드 매칭 (무신사/belier/벨리에)">
+          <picture>
+            <source srcset="images/musinsa-event-form-1.webp" type="image/webp">
+            <img src="images/musinsa-event-form-1.png" alt="무신사 이벤트 신청서 작성 - 이벤트 정보 + 복사할 정보 입력 화면" loading="lazy">
+          </picture>
+          <figcaption><strong>발매판 신청서</strong> · 이벤트명·브랜드·공통 정보 입력</figcaption>
+        </figure>
+        <figure data-full="images/musinsa-event-form-2.png" data-caption="단일구좌 발매판 - 노출 시작일/종료일·메인/서브 타이틀(5% 할인 고정)·구글 드라이브 URL·상품 UID 다중 입력">
+          <picture>
+            <source srcset="images/musinsa-event-form-2.webp" type="image/webp">
+            <img src="images/musinsa-event-form-2.png" alt="무신사 이벤트 신청서 - 단일구좌 발매판 입력 화면" loading="lazy">
+          </picture>
+          <figcaption><strong>단일구좌 발매판</strong> · 노출일·서브타이틀(5%)·상품 UID 입력</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 
@@ -2370,6 +2501,53 @@ ROAS 상위 3개 캠페인:
   function openCSManual() {
     window.open('https://belier-calendar.vercel.app/', '_blank');
   }
+
+  // ============ Lightbox (figure 클릭 시 원본 확대) ============
+  (function initLightbox() {
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-label', '확대 이미지');
+    overlay.innerHTML =
+      '<button class="lightbox-close" aria-label="닫기">×</button>' +
+      '<img alt="">' +
+      '<div class="lightbox-caption"></div>';
+    document.body.appendChild(overlay);
+
+    const imgEl = overlay.querySelector('img');
+    const captionEl = overlay.querySelector('.lightbox-caption');
+    const closeBtn = overlay.querySelector('.lightbox-close');
+
+    function open(src, caption, alt) {
+      imgEl.src = src;
+      imgEl.alt = alt || '';
+      captionEl.textContent = caption || '';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      imgEl.src = '';
+    }
+
+    document.addEventListener('click', function (e) {
+      const fig = e.target.closest('.screenshots-grid figure');
+      if (!fig || !fig.dataset.full) return;
+      // 편집 모드 중에는 확대 안 함 (편집 흐름 방해 X)
+      if (document.body.classList.contains('edit-mode')) return;
+      e.preventDefault();
+      const innerImg = fig.querySelector('img');
+      open(fig.dataset.full, fig.dataset.caption, innerImg ? innerImg.alt : '');
+    });
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay || e.target === closeBtn) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) close();
+    });
+  })();
 
   // ============ Boot ============
   loadAll();
